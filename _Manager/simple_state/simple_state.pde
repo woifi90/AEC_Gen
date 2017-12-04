@@ -13,7 +13,12 @@ void setup() {
   noStroke();
   
   stateMgr = new StateMgr();
+  /* TODO States
+  Intro (10 bis 15 sec)
+  Jede minute einen state (3 states), intensität steigert sich
   
+  Ende (bilder zeigen)
+  */
   STATEA = stateMgr.addState(new StateA(stateMgr));
   STATEB = stateMgr.addState(new StateB(stateMgr));
   STATEC = stateMgr.addState(new StateC(stateMgr, STATEA));
