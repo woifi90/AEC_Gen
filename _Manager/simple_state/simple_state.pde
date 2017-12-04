@@ -9,16 +9,29 @@ int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
 int WallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
 int FloorHeight = 1798/shrink;
 
+// delta time. calc in draw
 float dt = 0;
 
 StateMgr stateMgr;
+
+VectorField vf;
+ParticleSystem ps;
 
 int STATEA;
 int STATEB;
 int STATEC;
 
+void settings(){
+  size(WindowWidth, WindowHeight);
+}
+
 void setup() {
+  frameRate(30);
   noStroke();
+  colorMode(HSB, 255,255,255);
+  
+  vf = new VectorField();
+  ps = new ParticleSystem();
   
   stateMgr = new StateMgr();
   /* TODO States
@@ -35,6 +48,7 @@ void setup() {
 }
 
 void draw() {
+  dt = 1/frameRate;
   stateMgr.getCurrentState().draw();
   stateMgr.updateStates();
   
@@ -46,6 +60,12 @@ void draw() {
     else
       stateMgr.setState(STATEC);
   }
+  
+  // draw UI
+  fill(0);
+  textSize(20);
+  text((int)frameRate + " FPS", width / 2, 30);
+  text(ps.getParticleCount(), width / 2, 60);
 }
 
 void keyPressed() {

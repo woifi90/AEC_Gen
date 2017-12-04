@@ -1,6 +1,8 @@
 PGraphics heightfield;
 final int heightfieldDefaultValue = 125;
 
+// creates a vectorfield with a field size given in SIZE
+// the direction of each is dependant of the slope specified in heightfield 
 class VectorField{
 
   // size of a vector square in pixels
@@ -20,6 +22,21 @@ class VectorField{
   
   public VectorField(){
       heightfield = createGraphics(WindowWidth, FloorHeight);
+      
+      // draw a perlin noise as base. May be obsolete
+      heightfield.beginDraw();
+        heightfield.noStroke();
+        heightfield.background(heightfieldDefaultValue);
+        
+        noiseDetail(8,0.6);
+        // draw noise
+        for(int x = 0; x<width; x++){
+          for(int y = 0; y<height; y++){
+            int n = (int)(noise(x*0.005,y*0.005)*255);
+            heightfield.set(x,y,color(n));
+          }
+        }
+      heightfield.endDraw();
   }
   
   
@@ -117,6 +134,25 @@ class VectorField{
     downVec.set(dx, dy);
     
     return downVec;
+  }
+  
+  
+  
+  // heightfield fading
+  // better version than just overlaying a rect with alpha, 
+  // because it leaves no traces
+  private void fadeHeightfield(){
+    heightfield.loadPixels();
+      for (int i = 0; i < width * height; i++){
+        float hfVal = red(heightfield.pixels[i]);
+        float delta = hfVal- heightfieldDefaultValue;
+        if (delta != 0){
+          float sign = delta / abs(delta);
+          int newVal = (int)(hfVal - sign* ceil(abs(delta)/8));
+          heightfield.pixels[i] =  color(newVal);
+        }
+      }
+    heightfield.updatePixels();
   }
   
   

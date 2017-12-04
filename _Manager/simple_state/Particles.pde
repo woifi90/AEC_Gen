@@ -17,7 +17,7 @@ class ParticleSystem{
   // create a particle needs color, a lifetime and a color
   // lifetime < 0 lives forever
   public void spawnParticle(PVector pos, int lifetime, color col){
-  
+    particles.add(new Particle(pos.copy(), lifetime, col));
   }
   
   // returns amount of live particles
