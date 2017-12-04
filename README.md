@@ -1,4 +1,10 @@
-**CHI**
+# CHI
 Computer Human Interaction
 
-Hier _sollte_ mehr stehen.
+Generative Gestaltung
+`DA16/IM16`
+
+This project is meant to be:
+  * soothing
+  * apples
+  * nice
