@@ -1,8 +1,11 @@
 
 class State
 {
-  void State(int _stateID) {
-    stateID = _stateID;
+  State() {
+  }
+  
+  State(StateMgr _stateMgr) {
+    stateMgr = _stateMgr;
   }
   
   void setup() {

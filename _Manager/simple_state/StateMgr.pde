@@ -6,18 +6,22 @@ class StateMgr {
   int currentStateID;
   int stateStamp;
   
-  void setState(int newState) {
-    if (newState == currentStateID || newState < 0 || newState >= states.length)
-      return;
-      
-    currentStateID = newState;
-    stateStamp = millis();
+  int setState(int newState) {
+    if (newState < 0 || newState >= states.length) {
+      return -1;
+    }
+  
+    if (newState != currentStateID) {
+      currentStateID = newState;
+      stateStamp = millis();
+      println("switch to state " + currentStateID);
+    }
     
-    println("switch to state "+currentStateID);
+    return currentStateID;
   }
   
   State getCurrentState() {
-    return states[currentStateID];
+    return getState(currentStateID);
   }
 
   int getCurrentStateID() {
@@ -44,11 +48,16 @@ class StateMgr {
       states = (State[])append(states, state);
     }
     state.setID(states.length - 1);
-    state.setStateMgr(this);
     
     println("state " + state.getID() + " added");
     
     return state.getID();
   } 
+  
+  int updateStates() {
+    // query current state for next state id
+    return setState(getCurrentState().getNextStateID());
+  }
+
   
 }
