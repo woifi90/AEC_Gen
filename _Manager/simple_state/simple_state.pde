@@ -46,7 +46,7 @@ void setup() {
   STATEB = stateMgr.addState(new StateB(stateMgr));
   STATEC = stateMgr.addState(new StateC(stateMgr, STATEA));
   
-  stateMgr.setState(STATEA);
+  stateMgr.setState(INTROSTATE);
 }
 
 void draw() {
@@ -56,12 +56,12 @@ void draw() {
   
   // state transition from application:
   // switch from state B to state A or C after 2 seconds (randomly)
-  if (stateMgr.getCurrentStateID() == STATEB && stateMgr.getTimeInState() > 2000) {
+  /*if (stateMgr.getCurrentStateID() == STATEB && stateMgr.getTimeInState() > 2000) {
     if (int (random(2)) == 0)
       stateMgr.setState(STATEA);
     else
       stateMgr.setState(STATEC);
-  }
+  }*/
   
   // draw UI
   fill(0);
@@ -75,12 +75,15 @@ void keyPressed() {
   switch(key)
   {
     case '1':
-      stateMgr.setState(STATEA);
+      stateMgr.setState(INTROSTATE);
       break;
     case '2':
-      stateMgr.setState(STATEB);
+      stateMgr.setState(STATEA);
       break;
     case '3':
+      stateMgr.setState(STATEB);
+      break;
+    case '4':
       stateMgr.setState(STATEC);
       break;
   }
