@@ -17,6 +17,7 @@ StateMgr stateMgr;
 VectorField vf;
 ParticleSystem ps;
 
+int INTROSTATE;
 int STATEA;
 int STATEB;
 int STATEC;
@@ -40,6 +41,7 @@ void setup() {
   
   Ende (bilder zeigen)
   */
+  INTROSTATE = stateMgr.addState(new IntroState(stateMgr));
   STATEA = stateMgr.addState(new StateA(stateMgr));
   STATEB = stateMgr.addState(new StateB(stateMgr));
   STATEC = stateMgr.addState(new StateC(stateMgr, STATEA));
