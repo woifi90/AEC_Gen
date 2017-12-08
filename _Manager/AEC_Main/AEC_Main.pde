@@ -3,6 +3,8 @@
 * v1.1
 */
 
+import ddf.minim.*;
+
 int shrink = 6;
 int WindowWidth = 3030/shrink; // for real Deep Space this should be 3030
 int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
@@ -13,6 +15,9 @@ int FloorHeight = 1798/shrink;
 float dt = 0;
 
 StateMgr stateMgr;
+Minim player;
+AudioPlayer sound;
+//Use AudioPlayer to load and play sound
 
 VectorField vf;
 ParticleSystem ps;
@@ -31,8 +36,9 @@ void setup() {
   noStroke();
   colorMode(HSB, 255,255,255);
   
-  vf = new VectorField();
-  ps = new ParticleSystem();
+  player = new Minim(this);
+  
+  vf = new VectorField();  ps = new ParticleSystem();
   
   stateMgr = new StateMgr();
   /* TODO States

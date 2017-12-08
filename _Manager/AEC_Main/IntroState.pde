@@ -13,6 +13,8 @@ class IntroState extends State {
   
   boolean start = false;
   boolean end = false;
+  boolean play = true;
+ 
   
   IntroState() {
     super();
@@ -46,6 +48,11 @@ class IntroState extends State {
     background(fillcolour);
     
     if(start){
+      if(play){
+        sound = player.loadFile("gong.mp3");
+        sound.play();
+        play=false;
+    }
       if (transparency < 255 && end == false) { 
         transparency += 1;  
       }
