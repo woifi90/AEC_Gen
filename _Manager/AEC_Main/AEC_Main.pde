@@ -5,7 +5,7 @@
 
 import ddf.minim.*;
 
-int shrink = 6;
+int shrink = 4;
 int WindowWidth = 3030/shrink; // for real Deep Space this should be 3030
 int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
 int WallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -22,7 +22,7 @@ AudioPlayer sound;
 VectorField vf;
 ParticleSystem ps;
 
-KeyboardPlayer[] kps;
+ArrayList<KeyboardPlayer> kps;
 
 int INTROSTATE;
 int STATEA;
@@ -40,11 +40,9 @@ void setup() {
   
   player = new Minim(this);
   
-  kps = new KeyboardPlayer[2];
-  kps[0] = new KeyboardPlayer("wasd");
-  kps[1] = new KeyboardPlayer("ijkl");
-  
-  vf = new VectorField();  ps = new ParticleSystem();
+  vf = new VectorField();  
+  ps = new ParticleSystem();
+  kps = new ArrayList<KeyboardPlayer>();
   
   stateMgr = new StateMgr();
   /* TODO States
@@ -59,6 +57,8 @@ void setup() {
   STATEC = stateMgr.addState(new StateC(stateMgr, STATEA));
   
   stateMgr.setState(INTROSTATE);
+  
+  initPlayerTracking();
 }
 
 void draw() {
@@ -74,10 +74,6 @@ void draw() {
     else
       stateMgr.setState(STATEC);
   }*/
-  for(KeyboardPlayer kp: kps){
-    kp.update();
-    kp.draw();
-  }
   
   // draw UI
   fill(0);

@@ -21,7 +21,9 @@ class KeyboardPlayer
   float velocity;
   float angVel;
   color col;
-  private final float damp = 0.5;
+  private final float velDamp = 0.5;
+  private final float angDamp = 4;
+  int displ = (int)random(255);
   
   
   public KeyboardPlayer(String keys)
@@ -31,7 +33,7 @@ class KeyboardPlayer
     this.backward = keys.charAt(2);
     this.right = keys.charAt(3);
     
-    pos = new PVector(100,100);
+    pos = new PVector(random(WindowWidth),random(WallHeight,WindowHeight));
     angle = 0;
     velocity = 0;
     angVel = 0;
@@ -56,15 +58,15 @@ class KeyboardPlayer
     }
     
     velocity = constrain(velocity, -60,60);
-    angVel = constrain(angVel, -7, 7);
+    angVel = constrain(angVel, -5, 5);
     
     // move
     angle += angVel * dt;
     pos.add(PVector.mult(PVector.fromAngle(angle),velocity * dt));
 
     // damp
-    velocity *= 1-damp * dt;
-    angVel *= 1- damp * dt;
+    velocity *= 1-velDamp * dt;
+    angVel *= 1- angDamp * dt;
     
     // check for out of bounds
     pos.x = constrain(pos.x, 0, WindowWidth);
@@ -110,7 +112,7 @@ class KeyboardPlayer
     pushMatrix();
       translate(pos.x,pos.y);
       rotate(angle);
-      triangle(10,0,-7,5,-7,-5);
+      triangle(10,0,-7,7,-7,-7);
     popMatrix();
   }
 }

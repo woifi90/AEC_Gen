@@ -73,10 +73,12 @@ class Particle{
     this.pos = pos;
     this.lifetime = lifetime;
     this.col = col;
+    this.velocity = new PVector();
+    spawnTime = millis();
   }
   
   public void update(){
-    // todo get acceleration from vector field
+    this.velocity.add(PVector.mult(vf.getAcc(pos), dt));
     this.pos.add(PVector.mult(this.velocity, dt));
     // damp
     this.velocity.mult(0.8);

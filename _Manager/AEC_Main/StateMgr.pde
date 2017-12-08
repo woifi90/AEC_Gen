@@ -14,6 +14,7 @@ class StateMgr {
     if (newState != currentStateID) {
       currentStateID = newState;
       stateStamp = millis();
+      states[currentStateID].setup();
       println("switch to state " + currentStateID);
     }
     
