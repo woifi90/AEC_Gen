@@ -36,7 +36,7 @@ void settings(){
 void setup() {
   frameRate(30);
   noStroke();
-  colorMode(HSB, 255,255,255);
+  colorMode(HSB, 255);
   
   player = new Minim(this);
   

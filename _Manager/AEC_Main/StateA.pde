@@ -1,5 +1,7 @@
 class StateA extends State {
   
+  int brushSize = 20;
+  
   StateA() {
     super();
   }
@@ -19,15 +21,21 @@ class StateA extends State {
     rect(0, 0, width, height);
     
     heightfield.beginDraw();
+    heightfield.blendMode(MULTIPLY);
+    heightfield.noStroke();
       for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
         PharusPlayer p = playersEntry.getValue();
         PVector pos = p.getPosition();
         // spawn particles on every player
         for(int i = 0; i<5; i++){
           ps.spawnParticle(
-            new PVector(pos.x+random(10),pos.y-WallHeight+random(10)),
+            new PVector(pos.x+random(brushSize)-brushSize/2,pos.y-WallHeight+random(brushSize)-brushSize/2),
             2500, 
-            p.col +color(random(20),random(20),random(50))
+            color(
+              constrain(hue(p.col) + random (10), 0, 255),
+              constrain(saturation(p.col) + random (10), 0, 255),
+              constrain(brightness(p.col) + random (10), 0, 255)
+              )
           );
         }
         // influence heightfield on every player
@@ -39,9 +47,13 @@ class StateA extends State {
         PVector pos = p.pos;
         for(int i = 0; i<5; i++){
           ps.spawnParticle(
-            new PVector(pos.x+random(10),pos.y-WallHeight+random(10)),
+            new PVector(pos.x+random(brushSize)-brushSize/2,pos.y-WallHeight+random(brushSize)-brushSize/2),
             2500, 
-            p.col +color(random(20),random(20),random(50))
+            color(
+              constrain(hue(p.col) + random (10), 0, 255),
+              constrain(saturation(p.col) + random (10), 0, 255),
+              constrain(brightness(p.col) + random (10), 0, 255)
+              )
           );
         }
         heightfield.fill(p.displ);
@@ -50,10 +62,10 @@ class StateA extends State {
       }
     heightfield.endDraw();
     
-    image(heightfield,0,0);
     
     vf.update();
     ps.update();
+    vf.draw(true,false);
     ps.draw();
     
     image(particleCanvas,0,0);

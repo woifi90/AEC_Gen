@@ -1,5 +1,5 @@
 PGraphics heightfield;
-final int heightfieldDefaultValue = 125;
+final int heightfieldDefaultValue = 255;
 
 // creates a vectorfield with a field size given in SIZE
 // the direction of each is dependant of the slope specified in heightfield 
@@ -24,7 +24,10 @@ class VectorField{
       heightfield = createGraphics(WindowWidth, FloorHeight);
       
       // draw a perlin noise as base. May be obsolete
+      
       heightfield.beginDraw();
+      heightfield.background(heightfieldDefaultValue);
+        /*
         heightfield.noStroke();
         heightfield.background(heightfieldDefaultValue);
         
@@ -36,7 +39,9 @@ class VectorField{
             heightfield.set(x,y,color(n));
           }
         }
+        */
       heightfield.endDraw();
+      
   }
   
   
@@ -46,7 +51,7 @@ class VectorField{
     if (drawHeights){
       for (int x = 0; x<fieldCountX; x++){
         for (int y = 0; y<fieldCountY; y++){
-          fill(this.heights[x][y]);
+          fill(this.heights[x][y]); //<>//
           rect(x*SIZE, y*SIZE, SIZE, SIZE);
         }
       }
@@ -84,25 +89,27 @@ class VectorField{
   // calculates the average value from heightfield 
   // for the area of a vectorfield
   private int getAverageValue(int x, int y){
-    int avg = 0;
+    int sum = 0;
     // samples only part the pixels for better performance
     int step = 4;
+    int pixelCounter = 0;
     
     for(int a = 0;a<SIZE;a+= step){
       for(int b =0;b<SIZE;b+= step){
         // check for out of bounds, else just use the default
         if(a+x*SIZE < WindowWidth && b+y*SIZE < FloorHeight){
            int value = (int)red(heightfield.get(a+x*SIZE,b+y*SIZE));
-           avg += value;
+           sum += value;
          }
          else {
-           avg += heightfieldDefaultValue;
+           sum += heightfieldDefaultValue;
          }
+         pixelCounter++;
         
       }
     }
     
-    return avg / ((SIZE*SIZE)/(step*step));
+    return sum / pixelCounter;
   }
   
   
@@ -167,6 +174,15 @@ class VectorField{
       return PVector.mult(vectors[x][y],VSCALE);
     }
     return new PVector();
+  }
+  
+  public int getColorValue(PVector pos){
+    int x = (int)(pos.x/SIZE);
+    int y = (int)(pos.y/SIZE);
+    if (x<fieldCountX && y < fieldCountY && x>=0 && y>=0){
+      return heights[x][y];
+    }
+    return 255;
   }
   
   

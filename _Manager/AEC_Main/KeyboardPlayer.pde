@@ -23,7 +23,7 @@ class KeyboardPlayer
   color col;
   private final float velDamp = 0.5;
   private final float angDamp = 4;
-  int displ = (int)random(255);
+  int displ = 245;
   
   
   public KeyboardPlayer(String keys)

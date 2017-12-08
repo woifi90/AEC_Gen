@@ -78,6 +78,7 @@ class Particle{
   }
   
   public void update(){
+    //this.col = color((this.col>>24) & 0xFF, (this.col>>16) & 0xFF, vf.getColorValue(pos));
     this.velocity.add(PVector.mult(vf.getAcc(pos), dt));
     this.pos.add(PVector.mult(this.velocity, dt));
     // damp

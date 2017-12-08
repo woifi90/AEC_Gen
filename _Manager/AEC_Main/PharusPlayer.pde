@@ -23,7 +23,7 @@ class PharusPlayer
   float y; // do not modify this, PharusClient updates it
   ArrayList<Foot> feet = new ArrayList<Foot>(); // do not modify this, PharusClient updates it
   PVector velocity = new PVector();
-  int displ = (int)random(255);
+  int displ = 245;
   int col = color(random(255),random(255),random(50)+100);
   ArrayDeque<PVector> velocityQueue = new ArrayDeque();
 
