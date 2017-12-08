@@ -24,9 +24,9 @@ void initPlayerTracking()
 void drawPlayerTracking()
 {
   // reference for hashmap: file:///C:/Program%20Files/processing-3.0/modes/java/reference/HashMap.html
-  for (HashMap.Entry<Long, Player> playersEntry : pc.players.entrySet()) 
+  for (HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()) 
   {
-    Player p = playersEntry.getValue();
+    PharusPlayer p = playersEntry.getValue();
 
     // render path of each track
     if (ShowPath)
@@ -83,14 +83,14 @@ void drawPlayerTracking()
   }
 }
 
-void pharusPlayerAdded(Player player)
+void pharusPlayerAdded(PharusPlayer player)
 {
   println("Player " + player.id + " added");
   
   // TODO do something here if needed
 }
 
-void pharusPlayerRemoved(Player player)
+void pharusPlayerRemoved(PharusPlayer player)
 {
   println("Player " + player.id + " removed");
   

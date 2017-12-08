@@ -22,6 +22,8 @@ AudioPlayer sound;
 VectorField vf;
 ParticleSystem ps;
 
+KeyboardPlayer[] kps;
+
 int INTROSTATE;
 int STATEA;
 int STATEB;
@@ -37,6 +39,10 @@ void setup() {
   colorMode(HSB, 255,255,255);
   
   player = new Minim(this);
+  
+  kps = new KeyboardPlayer[2];
+  kps[0] = new KeyboardPlayer("wasd");
+  kps[1] = new KeyboardPlayer("ijkl");
   
   vf = new VectorField();  ps = new ParticleSystem();
   
@@ -68,6 +74,10 @@ void draw() {
     else
       stateMgr.setState(STATEC);
   }*/
+  for(KeyboardPlayer kp: kps){
+    kp.update();
+    kp.draw();
+  }
   
   // draw UI
   fill(0);
@@ -77,7 +87,9 @@ void draw() {
 }
 
 void keyPressed() {
- 
+  for(KeyboardPlayer kp: kps){
+    kp.keyPressed();
+  }
   switch(key)
   {
     case '1':
@@ -94,3 +106,9 @@ void keyPressed() {
       break;
   }
 } 
+
+void keyReleased(){
+  for(KeyboardPlayer kp: kps){
+    kp.keyReleased();
+  }
+}

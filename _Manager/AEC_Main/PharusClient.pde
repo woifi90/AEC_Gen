@@ -23,7 +23,7 @@ public class PharusClient extends PApplet
   boolean doDebug = false;  
   int maxAge = 50; // age is measured in update cycles, with 25 fps this is 2 seconds
   float jumpDistanceMaxTolerance = 0.05f; // max distance allowed when jumping between last known position and potential landing position, unit is in pixels relative to window width
-  HashMap<Long, Player> players = new HashMap<Long, Player>();
+  HashMap<Long, PharusPlayer> players = new HashMap<Long, PharusPlayer>();
 
   PharusClient(PApplet _parent, int _wallHeight) 
   {
@@ -40,7 +40,7 @@ public class PharusClient extends PApplet
     // check to see if the host applet implements event functions
     try 
     {
-      playerAddEventMethod = parent.getClass().getMethod("pharusPlayerAdded", new Class[] { Player.class });
+      playerAddEventMethod = parent.getClass().getMethod("pharusPlayerAdded", new Class[] { PharusPlayer.class });
     } 
     catch (Exception e) 
     {
@@ -49,7 +49,7 @@ public class PharusClient extends PApplet
     }
     try 
     {
-      playerRemoveEventMethod = parent.getClass().getMethod("pharusPlayerRemoved", new Class[] { Player.class });
+      playerRemoveEventMethod = parent.getClass().getMethod("pharusPlayerRemoved", new Class[] { PharusPlayer.class });
     } 
     catch (Exception e) 
     {
@@ -70,7 +70,7 @@ public class PharusClient extends PApplet
     jumpDistanceMaxTolerance = relDist;
   }
 
-  void firePlayerAddEvent(Player player) 
+  void firePlayerAddEvent(PharusPlayer player) 
   {
     if (playerAddEventMethod != null) 
     {
@@ -87,7 +87,7 @@ public class PharusClient extends PApplet
     }
   }
   
-  void firePlayerRemoveEvent(Player player) 
+  void firePlayerRemoveEvent(PharusPlayer player) 
   {
     if (playerRemoveEventMethod != null) 
     {
@@ -118,11 +118,11 @@ public class PharusClient extends PApplet
     int m = millis();
 
     // Increase age of all players, remove those too old
-    Iterator<HashMap.Entry<Long, Player>> iter = players.entrySet().iterator();
+    Iterator<HashMap.Entry<Long, PharusPlayer>> iter = players.entrySet().iterator();
     while (iter.hasNext()) 
     {
-      HashMap.Entry<Long, Player> playersEntry = iter.next();
-      Player p = (Player)playersEntry.getValue();
+      HashMap.Entry<Long, PharusPlayer> playersEntry = iter.next();
+      PharusPlayer p = (PharusPlayer)playersEntry.getValue();
       p.feet.clear();  
       p.age++;
       // remove if too old
@@ -139,7 +139,7 @@ public class PharusClient extends PApplet
     while (i < tcl.size())
     {
       TuioCursor tc = tcl.get(i);
-      Player p = players.get(tc.getSessionID());
+      PharusPlayer p = players.get(tc.getSessionID());
       if (p != null)
       {
         // update player
@@ -162,9 +162,9 @@ public class PharusClient extends PApplet
       {
         boolean found = false;
         // check if this was a previously known player with different id (TUIO id swap case due to jumping e.g.)
-        for (HashMap.Entry<Long, Player> playersEntry : players.entrySet()) 
+        for (HashMap.Entry<Long, PharusPlayer> playersEntry : players.entrySet()) 
         {
-          Player p = playersEntry.getValue();
+          PharusPlayer p = playersEntry.getValue();
           if (p.age == 0)
           {
             continue;
@@ -186,7 +186,7 @@ public class PharusClient extends PApplet
         // add as new player if nothing found
         if (!found)
         {
-          Player p = new Player(this, nextUniqueID++, tc.getSessionID(), tc.getScreenX(width), tc.getScreenY(height - wallHeight) + wallHeight);
+          PharusPlayer p = new PharusPlayer(this, nextUniqueID++, tc.getSessionID(), tc.getScreenX(width), tc.getScreenY(height - wallHeight) + wallHeight);
           players.put(tc.getSessionID(), p);
           firePlayerAddEvent(p);
         }
@@ -198,7 +198,7 @@ public class PharusClient extends PApplet
     ArrayList<TuioCursor> tuioCursorList = tuioProcessing.getTuioCursorList();
     for (TuioObject to : tuioObjectList)
     {
-      Player p = null;
+      PharusPlayer p = null;
       if (to.getSymbolID() < tuioCursorList.size())
       {
         TuioCursor tc = tuioCursorList.get(to.getSymbolID());
