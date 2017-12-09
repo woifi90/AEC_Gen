@@ -65,6 +65,8 @@ class IntroState extends State {
       
       if(transparency > 0 && end) {transparency -= 1;}
       
+      if(transparency == 0 && end){stateMgr.setState(STATEA);}
+      
     }
     
   }  
