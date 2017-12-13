@@ -8,8 +8,10 @@ class IntroState extends State {
   int x = 0; int y = 0; int z = 0;
   color fillcolour = color(x, y, z);
   float colourincrement = 1;
-  PImage img = loadImage("logo.png");
+  PImage img = loadImage("logo.png");    
+  PImage img2 = loadImage("sand_texture.jpg");
   float transparency = 0;
+  float transparency2 = 0;
   
   boolean start = false;
   boolean end = false;
@@ -28,6 +30,7 @@ class IntroState extends State {
   void draw() {
     colorMode(RGB, 255);
     fillcolour = color(x, y, z);
+    
     background(1);
     fill(fillcolour);
     if (x < r){ 
@@ -44,8 +47,10 @@ class IntroState extends State {
       start = true;
     }
     
-    imageMode(CENTER);
     background(fillcolour);
+    
+    backgroundImage();
+    imageMode(CENTER);
     
     if(start){
       if(play){
@@ -53,9 +58,7 @@ class IntroState extends State {
         sound.play();
         play=false;
     }
-      if (transparency < 255 && end == false) { 
-        transparency += 1;  
-      }
+      if (transparency < 255 && end == false){transparency += 1;}
       
       if(transparency == 255) {end = true; }
       
@@ -70,5 +73,20 @@ class IntroState extends State {
     }
     
   }  
+  
+  void backgroundImage(){
+    
+    imageMode(NORMAL);
+    
+    if (transparency2 < 150) { 
+        transparency2 += 0.5; 
+        //println(transparency2);
+      }
+      
+    tint(255, transparency2);
+    image(img2, 0, 0);
+    img2.resize(width,height);   
+  
+  }
   
 }

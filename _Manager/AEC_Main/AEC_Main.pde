@@ -108,3 +108,12 @@ void keyReleased(){
     kp.keyReleased();
   }
 }
+
+void backgroundColor(){
+  PImage img = loadImage("sand_texture.jpg");
+  background(color(237, 201, 175));
+  tint(255, 150);
+  image(img, 0, 0);
+  img.resize(width,height);   
+  
+}

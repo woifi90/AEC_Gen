@@ -51,7 +51,7 @@ class VectorField{
     if (drawHeights){
       for (int x = 0; x<fieldCountX; x++){
         for (int y = 0; y<fieldCountY; y++){
-          fill(this.heights[x][y]); //<>//
+          fill(this.heights[x][y]); //<>// //<>//
           rect(x*SIZE, y*SIZE, SIZE, SIZE);
         }
       }
