@@ -68,9 +68,10 @@ class VectorField{
         for (int y = 0; y<fieldCountY; y++){
           float centerX = x * SIZE + SIZE/2;
           float centerY = y * SIZE + SIZE /2;
+          PVector dir = vectors[x][y].limit(SIZE); 
           line(centerX, centerY, 
-            centerX + vectors[x][y].x /4, 
-            centerY + vectors[x][y].y /4);
+            centerX + dir.x, 
+            centerY + dir.y);
         }
       }
     }

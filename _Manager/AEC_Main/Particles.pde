@@ -8,13 +8,16 @@ class ParticleSystem{
   private final int RAND_COL = 30;
   
   // Debug
-  public boolean debugDraw = false;
+  public boolean doDraw = true;
   
   private ArrayList<Particle> particles = new ArrayList();
 
   // the canvas is created on instantiation
   public ParticleSystem(){
     particleCanvas = createGraphics(WindowWidth, FloorHeight);
+    particleCanvas.beginDraw();
+    particleCanvas.background(255,255,255,0);
+    particleCanvas.endDraw();
   }
   
   // create a particle needs position, a lifetime and a color
@@ -59,8 +62,14 @@ class ParticleSystem{
     // paint each particle that moves faster than threshold 
     // in the color of the particle
     for(Particle p: particles){
-      if(p.velocity.mag() > 5 || debugDraw){
-        particleCanvas.set((int)p.pos.x, (int)p.pos.y, p.col);
+      if(p.velocity.mag() > 5){
+        color currentCol = particleCanvas.get((int)p.pos.x, (int)p.pos.y);
+        color newCol = color(
+          lerp(hue(currentCol), hue(p.col), 0.3),
+          lerp(saturation(currentCol), saturation(p.col), 0.1),
+          lerp(brightness(currentCol), brightness(p.col), 0.01)
+        );
+        particleCanvas.set((int)p.pos.x, (int)p.pos.y, newCol);
       }
     }
     
@@ -85,10 +94,9 @@ class Particle{
   }
   
   public void update(){
-    //this.col = color((this.col>>24) & 0xFF, (this.col>>16) & 0xFF, vf.getColorValue(pos));
     this.velocity.add(PVector.mult(vf.getAcc(pos), dt));
     this.pos.add(PVector.mult(this.velocity, dt));
     // damp
-    this.velocity.mult(0.8);
+    this.velocity.mult(0.95);
   }
 }

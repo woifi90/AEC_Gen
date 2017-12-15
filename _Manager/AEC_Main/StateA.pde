@@ -62,7 +62,8 @@ class StateA extends State {
     vf.draw();
     ps.draw();
     fill(0);
-    image(particleCanvas,0,0);
+    if(ps.doDraw)
+      image(particleCanvas,0,0);
     
     for(KeyboardPlayer kp: kps){
       kp.update();
