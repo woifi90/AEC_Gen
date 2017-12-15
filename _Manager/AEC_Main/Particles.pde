@@ -4,8 +4,11 @@ PGraphics particleCanvas;
 // manages particles motion, spawning and killing
 class ParticleSystem{
   
+  // random value applied to particle color on spawn to get variation
+  private final int RAND_COL = 30;
+  
   // Debug
-  private final boolean debugDraw = false;
+  public boolean debugDraw = false;
   
   private ArrayList<Particle> particles = new ArrayList();
 
@@ -14,9 +17,13 @@ class ParticleSystem{
     particleCanvas = createGraphics(WindowWidth, FloorHeight);
   }
   
-  // create a particle needs color, a lifetime and a color
+  // create a particle needs position, a lifetime and a color
   // lifetime < 0 lives forever
   public void spawnParticle(PVector pos, int lifetime, color col){
+    // randomise color
+    col = color(  constrain(hue(col) + random (10), 0, 255),
+                  constrain(saturation(col) + random (-RAND_COL,RAND_COL), 0, 255),
+                  constrain(brightness(col) + random (-RAND_COL,RAND_COL), 0, 255));
     particles.add(new Particle(pos.copy(), lifetime, col));
   }
   

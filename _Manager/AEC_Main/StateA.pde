@@ -13,12 +13,14 @@ class StateA extends State {
   void setup(){
     kps.add(new KeyboardPlayer("wasd"));
     kps.add(new KeyboardPlayer("ijkl"));
+    kps.add(new KeyboardPlayer(UP,LEFT,DOWN,RIGHT));
     imageMode(CORNER);
+    colorMode(HSB, 255);
+    noTint();
   }
   
   void draw() {
-    fill(255, 0, 0);
-    rect(0, 0, width, height);
+    background(240);
     
     heightfield.beginDraw();
     heightfield.blendMode(MULTIPLY);
@@ -31,11 +33,7 @@ class StateA extends State {
           ps.spawnParticle(
             new PVector(pos.x+random(brushSize)-brushSize/2,pos.y-WallHeight+random(brushSize)-brushSize/2),
             2500, 
-            color(
-              constrain(hue(p.col) + random (10), 0, 255),
-              constrain(saturation(p.col) + random (10), 0, 255),
-              constrain(brightness(p.col) + random (10), 0, 255)
-              )
+            p.col
           );
         }
         // influence heightfield on every player
@@ -49,11 +47,7 @@ class StateA extends State {
           ps.spawnParticle(
             new PVector(pos.x+random(brushSize)-brushSize/2,pos.y-WallHeight+random(brushSize)-brushSize/2),
             2500, 
-            color(
-              constrain(hue(p.col) + random (10), 0, 255),
-              constrain(saturation(p.col) + random (10), 0, 255),
-              constrain(brightness(p.col) + random (10), 0, 255)
-              )
+            p.col
           );
         }
         heightfield.fill(p.displ);
@@ -65,9 +59,9 @@ class StateA extends State {
     
     vf.update();
     ps.update();
-    vf.draw(true,false);
+    vf.draw();
     ps.draw();
-    
+    fill(0);
     image(particleCanvas,0,0);
     
     for(KeyboardPlayer kp: kps){

@@ -100,6 +100,15 @@ void keyPressed() {
     case '4':
       stateMgr.setState(STATEC);
       break;
+    case 'y':
+      ps.debugDraw = !ps.debugDraw;
+      break;
+    case 'x':
+      vf.drawHeights = !vf.drawHeights;
+      break;
+    case 'c':
+      vf.drawVectors = !vf.drawVectors;
+      break;
   }
 } 
 

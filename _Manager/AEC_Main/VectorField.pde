@@ -4,6 +4,10 @@ final int heightfieldDefaultValue = 255;
 // creates a vectorfield with a field size given in SIZE
 // the direction of each is dependant of the slope specified in heightfield 
 class VectorField{
+  
+  // DEBUG
+  public boolean drawHeights = false;
+  public boolean drawVectors = false;
 
   // size of a vector square in pixels
   private final int SIZE = 15;
@@ -46,9 +50,10 @@ class VectorField{
   
   
   // drawing is for debug only and slows down rendering significantly
-  void draw(boolean drawHeights, boolean drawVectors){
+  void draw(){
     // draw a field of rectangles representing the average value
     if (drawHeights){
+      noStroke();
       for (int x = 0; x<fieldCountX; x++){
         for (int y = 0; y<fieldCountY; y++){
           fill(this.heights[x][y]); //<>// //<>//
@@ -58,11 +63,14 @@ class VectorField{
     }
     // draw the vectors representing the direction and strength
     if(drawVectors){
+      stroke(0);
       for (int x = 0; x<fieldCountX; x++){
         for (int y = 0; y<fieldCountY; y++){
           float centerX = x * SIZE + SIZE/2;
           float centerY = y * SIZE + SIZE /2;
-          line(centerX, centerY, centerX+vectors[x][y].x, centerY+vectors[x][y].y);
+          line(centerX, centerY, 
+            centerX + vectors[x][y].x /4, 
+            centerY + vectors[x][y].y /4);
         }
       }
     }
@@ -73,7 +81,7 @@ class VectorField{
     // get the average value of the heighfield for each vectorfield
     for (int x = 0; x<fieldCountX; x++){
       for (int y = 0; y<fieldCountY; y++){
-        heights[x][y] = getAverageValue(x,y);
+        heights[x][y] = calculateAverageValue(x,y);
       }
     }
     // set the vector to the direction of the lowest neighbouring value
@@ -88,7 +96,7 @@ class VectorField{
   
   // calculates the average value from heightfield 
   // for the area of a vectorfield
-  private int getAverageValue(int x, int y){
+  private int calculateAverageValue(int x, int y){
     int sum = 0;
     // samples only part the pixels for better performance
     int step = 4;
@@ -122,22 +130,46 @@ class VectorField{
     int dx = 0;
     int dy = 0;
     
-    //check top
+    int center = heights[x][y];
+    
+    // check top left
+    if(y > 0 && x > 0){
+      dx -= center - heights[x-1][y-1];
+      dy -= center - heights[x-1][y-1];
+    }
+    // check top
     if (y > 0){
-      dy += heights[x][y-1] - heights[x][y];
+      dy -= center - heights[x][y-1];
     }
-    //check bottom
-    if (y < fieldCountY-1){
-      dy += heights[x][y] - heights[x][y+1];
+    // check top right
+    if(y > 0 && x < fieldCountX -1){
+      dx += center - heights[x+1][y-1];
+      dy -= center - heights[x+1][y-1];
     }
-    //check right
-    if(x < fieldCountX-1){
-      dx += heights[x][y] - heights[x+1][y];
-    }
-    //check left
+    // check left
     if(x > 0){
-      dx += heights[x-1][y] - heights[x][y];
+      dx -= center - heights[x-1][y];
     }
+    // check right
+    if(x < fieldCountX-1){
+      dx += center - heights[x+1][y];
+    }
+    // check bottom left
+    if(x >0 && y < fieldCountY -1){
+      dx -= center - heights[x-1][y+1];
+      dy += center - heights[x-1][y+1];
+    }
+    // check bottom
+    if(y < fieldCountY-1){
+      dy += center - heights[x][y+1];
+    }
+    // check bottom right
+    if(x < fieldCountX -1 && y < fieldCountY -1){
+      dx += center - heights[x+1][y+1];
+      dy += center - heights[x+1][y+1];
+    }
+    
+
     downVec.set(dx, dy);
     
     return downVec;
