@@ -93,7 +93,7 @@ class VectorField{
   public void update(){
     if(millis() - blurTimestamp > BLUR_FREQ){
       heightfield.beginDraw();
-      heightfield.filter(BLUR, 1);
+      //heightfield.filter(BLUR, 1);
       heightfield.endDraw();
       blurTimestamp = millis();
     }

@@ -3,7 +3,7 @@
 // this class contains all the information for one player and gets updated by the PharusClient
 // extend this class with your player code if needed, but do not change the functions and variables that are there already as PharusClient depends on it
 
-class PharusPlayer
+class PharusPlayer extends Player
 {
   public PharusPlayer(PharusClient pc, int id, long tuioId, float x, float y)
   {
@@ -23,8 +23,6 @@ class PharusPlayer
   float y; // do not modify this, PharusClient updates it
   ArrayList<Foot> feet = new ArrayList<Foot>(); // do not modify this, PharusClient updates it
   PVector velocity = new PVector();
-  int displ = 245;
-  int col = color(random(255),random(255),random(50)+100);
   ArrayDeque<PVector> velocityQueue = new ArrayDeque();
 
   // TODO extend this with additional fields
@@ -101,8 +99,9 @@ class PharusPlayer
     this.y = y;
   }
   
-  public int getDispl(){
-    return (int)map(velocity.mag(), 0, 100, 255,245); 
+  public int getDisplacement(){
+    int maxWeight = (int)map(pc.players.size(),1,12,200,250);
+    return (int)map(velocity.mag(), 0, 100, 255, maxWeight); 
   }
 
 }

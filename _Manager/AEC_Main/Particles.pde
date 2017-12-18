@@ -24,9 +24,9 @@ class ParticleSystem{
   // lifetime < 0 lives forever
   public void spawnParticle(PVector pos, int lifetime, color col){
     // randomise color
-    col = color(  constrain(hue(col) + random (10), 0, 255),
-                  constrain(saturation(col) + random (-RAND_COL,RAND_COL), 0, 255),
-                  constrain(brightness(col) + random (-RAND_COL,RAND_COL), 0, 255));
+    col = color(  constrain(hue(col) + random(-RAND_COL,RAND_COL), 0, 255),
+                  constrain(saturation(col) + random(-RAND_COL,RAND_COL), 0, 255),
+                  constrain(brightness(col) + random(-RAND_COL,RAND_COL), 0, 255));
     particles.add(new Particle(pos.copy(), lifetime, col));
   }
   
@@ -65,9 +65,9 @@ class ParticleSystem{
       if(p.velocity.mag() > 5){
         color currentCol = particleCanvas.get((int)p.pos.x, (int)p.pos.y);
         color newCol = color(
-          lerp(hue(currentCol),hue(p.col),0.2),
-          lerp(saturation(currentCol),saturation(p.col),0.1),
-          lerp(brightness(currentCol),brightness(p.col),0.1),
+          lerp(hue(currentCol),hue(p.col),0.3),
+          lerp(saturation(currentCol),saturation(p.col),0.3),
+          lerp(brightness(currentCol),brightness(p.col),0.3),
           max(p.alpha,alpha(currentCol))
         );
         particleCanvas.set((int)p.pos.x, (int)p.pos.y, newCol);

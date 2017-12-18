@@ -1,10 +1,7 @@
 class StateA extends State {
   
-  int brushSize = 20;
   Guidance guide;
   PImage arrow;
-  PharusPlayer p;
-  PVector pos;
   
   StateA() {
     super();
@@ -33,38 +30,26 @@ class StateA extends State {
   
   void draw() {
     background(240);
-    guide.draw();
+    //guide.draw();
     
     heightfield.beginDraw();
     heightfield.blendMode(MULTIPLY);
     heightfield.noStroke();
+      int heightfieldStampSize = 40/shrink;
       for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
-        p = playersEntry.getValue();
-        pos = p.getPosition();
-        // spawn particles on every player
-        for(int i = 0; i<5; i++){
-          ps.spawnParticle(
-            new PVector(pos.x+random(brushSize)-brushSize/2,pos.y-WallHeight+random(brushSize)-brushSize/2),
-            2500, 
-            p.col
-          );
-        }
+        Player p = playersEntry.getValue();
+        
+        p.spawnParticles();
+        
         // influence heightfield on every player
-        heightfield.fill(p.getDispl());
-        heightfield.ellipse(pos.x, pos.y-WallHeight, 10,10);
+        heightfield.fill(p.getDisplacement());
+        heightfield.ellipse(p.getPosition().x, p.getPosition().y-WallHeight, heightfieldStampSize,heightfieldStampSize);
       }
       
       for(KeyboardPlayer p: kps){
-        PVector pos = p.pos;
-        for(int i = 0; i<5; i++){
-          ps.spawnParticle(
-            new PVector(pos.x+random(brushSize)-brushSize/2,pos.y-WallHeight+random(brushSize)-brushSize/2),
-            2500, 
-            p.col
-          );
-        }
-        heightfield.fill(p.getDispl());
-        heightfield.ellipse(pos.x, pos.y-WallHeight, 10,10);
+        p.spawnParticles();        
+        heightfield.fill(p.getDisplacement());
+        heightfield.ellipse(p.getPosition().x, p.getPosition().y-WallHeight, heightfieldStampSize,heightfieldStampSize);
         
       }
     heightfield.endDraw();

@@ -1,7 +1,7 @@
 
 
 // a player instance that is controlled by keyboard inputs
-class KeyboardPlayer
+class KeyboardPlayer extends Player
 {
   // Movement buttons
   int forward;
@@ -22,10 +22,10 @@ class KeyboardPlayer
   float angle;
   float velocity;
   float angVel;
-  color col;
+
   private final float velDamp = 0.5;
   private final float angDamp = 4;
-  private int displ = 245;
+  
   
   
   public KeyboardPlayer(String keys)
@@ -39,7 +39,6 @@ class KeyboardPlayer
     angle = 0;
     velocity = 0;
     angVel = 0;
-    col = color(random(255), random(50,230), random(50,230));
   }
   
   public KeyboardPlayer(int forward, int left, int backward, int right){
@@ -53,11 +52,14 @@ class KeyboardPlayer
     angle = 0;
     velocity = 0;
     angVel = 0;
-    col = color(random(255), random(255), random(255));
   }
   
-  public int getDispl(){
+  public int getDisplacement(){
     return (int)map(velocity, 0, 60, 255, 245);
+  }
+  
+  public PVector getPosition(){
+    return pos;
   }
   
   
