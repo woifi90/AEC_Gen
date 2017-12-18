@@ -50,7 +50,7 @@ class StateA extends State {
           );
         }
         // influence heightfield on every player
-        heightfield.fill(p.displ);
+        heightfield.fill(p.getDispl());
         heightfield.ellipse(pos.x, pos.y-WallHeight, 10,10);
       }
       
@@ -63,7 +63,7 @@ class StateA extends State {
             p.col
           );
         }
-        heightfield.fill(p.displ);
+        heightfield.fill(p.getDispl());
         heightfield.ellipse(pos.x, pos.y-WallHeight, 10,10);
         
       }

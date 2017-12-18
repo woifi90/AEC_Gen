@@ -100,6 +100,10 @@ class PharusPlayer
     this.x = x;
     this.y = y;
   }
+  
+  public int getDispl(){
+    return (int)map(velocity.mag(), 0, 100, 255,245); 
+  }
 
 }
 

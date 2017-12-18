@@ -65,9 +65,9 @@ class ParticleSystem{
       if(p.velocity.mag() > 5){
         color currentCol = particleCanvas.get((int)p.pos.x, (int)p.pos.y);
         color newCol = color(
-          hue(p.col),
-          saturation(p.col),
-          brightness(p.col),
+          lerp(hue(currentCol),hue(p.col),0.2),
+          lerp(saturation(currentCol),saturation(p.col),0.1),
+          lerp(brightness(currentCol),brightness(p.col),0.1),
           max(p.alpha,alpha(currentCol))
         );
         particleCanvas.set((int)p.pos.x, (int)p.pos.y, newCol);

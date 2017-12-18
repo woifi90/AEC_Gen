@@ -6,6 +6,7 @@ final int heightfieldDefaultValue = 255;
 class VectorField{
   
   // DEBUG
+  public boolean drawHeightfield = false;
   public boolean drawHeights = false;
   public boolean drawVectors = false;
 
@@ -21,6 +22,11 @@ class VectorField{
   private PVector[][] vectors = new PVector[fieldCountX][fieldCountY];
   
   private int[][] heights = new int[fieldCountX][fieldCountY];
+  
+  private PShader blur;
+  private int blurTimestamp = 0;
+  //blur every second
+  private final int BLUR_FREQ = 2000;
   
   
   
@@ -46,11 +52,17 @@ class VectorField{
         */
       heightfield.endDraw();
       
+      // blur = loadShader("blur.glsl");
+      
   }
   
   
   // drawing is for debug only and slows down rendering significantly
   void draw(){
+    //draw heightfield
+    if(drawHeightfield){
+      image(heightfield,0,0);
+    }
     // draw a field of rectangles representing the average value
     if (drawHeights){
       noStroke();
@@ -79,6 +91,12 @@ class VectorField{
   
   
   public void update(){
+    if(millis() - blurTimestamp > BLUR_FREQ){
+      heightfield.beginDraw();
+      heightfield.filter(BLUR, 1);
+      heightfield.endDraw();
+      blurTimestamp = millis();
+    }
     // get the average value of the heighfield for each vectorfield
     for (int x = 0; x<fieldCountX; x++){
       for (int y = 0; y<fieldCountY; y++){

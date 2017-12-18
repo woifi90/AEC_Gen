@@ -100,8 +100,11 @@ void keyPressed() {
     case '4':
       stateMgr.setState(STATEC);
       break;
-    case 'x':
+    case 'y':
       ps.doDraw = !ps.doDraw;
+      break;
+    case 'x':
+      vf.drawHeightfield = !vf.drawHeightfield;
       break;
     case 'c':
       vf.drawHeights = !vf.drawHeights;
