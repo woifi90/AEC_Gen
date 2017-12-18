@@ -8,14 +8,14 @@ class IntroState extends State {
   int x = 0; int y = 0; int z = 0;
   color fillcolour = color(x, y, z);
   float colourincrement = 1;
-  PImage img = loadImage("logo.png");    
+  PImage img = loadImage("logo.png");
   PImage img2 = loadImage("sand_texture.jpg");
-  float transparency = 0;
-  float transparency2 = 0;
+  float transparency;
+  float transparency2;
   
-  boolean start = false;
-  boolean end = false;
-  boolean play = true;
+  boolean start;
+  boolean end;
+  boolean play;
  
   
   IntroState() {
@@ -24,6 +24,18 @@ class IntroState extends State {
   
   IntroState(StateMgr _stateMgr) {
     super(_stateMgr); 
+  }
+  
+  void setup() {
+    
+    //clearBackground(); 
+    transparency = 0;
+    transparency2 = 0;
+    
+    start = false;
+    end = false;
+    play = true;
+    
   }
   
   
@@ -87,6 +99,10 @@ class IntroState extends State {
     image(img2, 0, 0);
     img2.resize(width,height);   
   
+  }
+  
+  void clearBackground() {
+     background(1);
   }
   
 }
