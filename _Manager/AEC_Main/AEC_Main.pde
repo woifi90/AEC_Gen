@@ -29,6 +29,8 @@ int STATEA;
 int STATEB;
 int STATEC;
 
+StateA stateA;
+
 void settings(){
   size(WindowWidth, WindowHeight);
 }
@@ -52,7 +54,9 @@ void setup() {
   Ende (bilder zeigen)
   */
   INTROSTATE = stateMgr.addState(new IntroState(stateMgr));
-  STATEA = stateMgr.addState(new StateA(stateMgr));
+  
+  stateA = new StateA(stateMgr);
+  STATEA = stateMgr.addState(stateA);
   STATEB = stateMgr.addState(new StateB(stateMgr));
   STATEC = stateMgr.addState(new StateC(stateMgr, STATEA));
   
@@ -111,6 +115,9 @@ void keyPressed() {
       break;
     case 'v':
       vf.drawVectors = !vf.drawVectors;
+      break;
+    case 'b':
+      stateA.guide.changeShape();
       break;
   }
 } 
