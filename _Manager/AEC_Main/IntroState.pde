@@ -5,8 +5,8 @@ class IntroState extends State {
   int g = 201;
   int b = 175;
   
-  int x = 0; int y = 0; int z = 0;
-  color fillcolour = color(x, y, z);
+  int x; int y; int z;
+  color fillcolour;
   float colourincrement = 1;
   PImage img = loadImage("logo.png");
   PImage img2 = loadImage("sand_texture.jpg");
@@ -31,6 +31,12 @@ class IntroState extends State {
     //clearBackground(); 
     transparency = 0;
     transparency2 = 0;
+    
+    x= 0;
+    y = 0;
+    z = 0;
+    
+    fillcolour = color(x, y, z);
     
     start = false;
     end = false;
