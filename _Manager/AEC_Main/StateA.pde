@@ -13,6 +13,9 @@ class StateA extends State {
   }
   
   void setup(){
+    kps.clear();   
+    clearBackground();
+    
     kps.add(new KeyboardPlayer("wasd"));
     kps.add(new KeyboardPlayer("ijkl"));
     kps.add(new KeyboardPlayer(UP,LEFT,DOWN,RIGHT));
@@ -89,5 +92,9 @@ class StateA extends State {
     }
     
   }  
+  
+  void clearBackground() {
+     background(240);
+  }
   
 }
