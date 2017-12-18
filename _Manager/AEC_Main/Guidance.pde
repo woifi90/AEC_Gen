@@ -1,13 +1,11 @@
 // this class returns a direction according to a source image
 class Guidance{
   private PImage source;
-  private PImage gradient;
   private int innerRadius = 25; // in pixel
   private int outerRadius = 80; // in pixel
-  private int bins = 16; // number of direction bins
+  private int bins = 32; // number of direction bins
   private int[][] kernel;
   boolean debug = false;
-  private PGraphics pgKernel;
   
   public Guidance(String image){
     source = loadImage(image);
@@ -49,7 +47,11 @@ class Guidance{
       }
     }
     
-    PVector v1 = new PVector(0,-1), v2 = new PVector(0,-1);
+    drawArrow(x,y, 50, weightAngle);
+    
+    
+    // amplify bins by weightAngle
+    PVector v1 = new PVector(1,0), v2 = new PVector(1,0);
     v1.rotate(radians(weightAngle));
     
     for(int i = 0; i < binWeights.length; i++){
@@ -60,7 +62,6 @@ class Guidance{
       float weight = 2*PI / angularDifference;
       binWeights[i] = binWeights[i]*weight;
     }
-    
     
     
     int dominantBin = 0;
@@ -84,7 +85,7 @@ class Guidance{
   public void drawArrow(int cx, int cy, int len, float angle){
     pushMatrix();
     translate(cx, cy);
-    rotate(radians(-angle+90));
+    rotate(angle);
     strokeWeight(2);
     stroke(150,0,0);
     line(0,0,len, 0);
@@ -106,7 +107,7 @@ class Guidance{
             PVector vec = PVector.sub(center,pixel);
             float angle = atan2(vec.x, vec.y)*180/PI + 180;
             kernel[x][y] = (int)((angle/360.0)*bins);
-            if(kernel[x][y] == 16){kernel[x][y] = 15;}
+            if(kernel[x][y] == bins){kernel[x][y] = bins-1;}
           }
           else{
             kernel[x][y] = -1;

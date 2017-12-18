@@ -56,7 +56,7 @@ void setup() {
   STATEB = stateMgr.addState(new StateB(stateMgr));
   STATEC = stateMgr.addState(new StateC(stateMgr, STATEA));
   
-  stateMgr.setState(INTROSTATE);
+  stateMgr.setState(STATEA);
   
   initPlayerTracking();
 }
