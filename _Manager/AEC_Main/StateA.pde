@@ -3,6 +3,8 @@ class StateA extends State {
   int brushSize = 20;
   Guidance guide;
   PImage arrow;
+  PharusPlayer p;
+  PVector pos;
   
   StateA() {
     super();
@@ -13,7 +15,7 @@ class StateA extends State {
   }
   
   void setup(){
-    kps.clear();   
+    
     clearBackground();
     
     kps.add(new KeyboardPlayer("wasd"));
@@ -34,8 +36,8 @@ class StateA extends State {
     heightfield.blendMode(MULTIPLY);
     heightfield.noStroke();
       for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
-        PharusPlayer p = playersEntry.getValue();
-        PVector pos = p.getPosition();
+        p = playersEntry.getValue();
+        pos = p.getPosition();
         // spawn particles on every player
         for(int i = 0; i<5; i++){
           ps.spawnParticle(
@@ -95,6 +97,7 @@ class StateA extends State {
   
   void clearBackground() {
      background(240);
+     kps.clear();  
   }
   
 }
