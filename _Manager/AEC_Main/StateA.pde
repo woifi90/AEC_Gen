@@ -1,6 +1,8 @@
 class StateA extends State {
   
   int brushSize = 20;
+  Guidance guide;
+  PImage arrow;
   
   StateA() {
     super();
@@ -17,10 +19,13 @@ class StateA extends State {
     imageMode(CORNER);
     colorMode(HSB, 255);
     noTint();
+    guide = new Guidance();
+    arrow = loadImage("pfeil.png");
   }
   
   void draw() {
     background(240);
+    guide.draw();
     
     heightfield.beginDraw();
     heightfield.blendMode(MULTIPLY);
@@ -68,6 +73,19 @@ class StateA extends State {
     for(KeyboardPlayer kp: kps){
       kp.update();
       kp.draw();
+      
+      // draw direction guidance
+      float dir = guide.getDominantDirection(kp.pos.x,kp.pos.y-WallHeight, kp.angle);
+      
+      pushMatrix();
+     
+      translate(kp.pos.x,kp.pos.y);
+      rotate(radians(-dir + 180 ));
+       scale((1.0/AEC_Main.shrink) * 2.0);
+      translate(-arrow.width/2,-arrow.height/2);
+      
+      image(arrow,0,0);
+      popMatrix();
     }
     
   }  
