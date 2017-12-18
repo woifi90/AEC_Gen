@@ -18,6 +18,9 @@ class StateA extends State {
     
     clearBackground();
     
+    vf.reset();
+    ps.reset();
+    
     kps.add(new KeyboardPlayer("wasd"));
     kps.add(new KeyboardPlayer("ijkl"));
     kps.add(new KeyboardPlayer(UP,LEFT,DOWN,RIGHT));

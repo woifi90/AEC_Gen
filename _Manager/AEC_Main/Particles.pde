@@ -5,7 +5,7 @@ PGraphics particleCanvas;
 class ParticleSystem{
   
   // random value applied to particle color on spawn to get variation
-  private final int RAND_COL = 30;
+  private final int RAND_COL = 20;
   
   // Debug
   public boolean doDraw = true;
@@ -65,15 +65,24 @@ class ParticleSystem{
       if(p.velocity.mag() > 5){
         color currentCol = particleCanvas.get((int)p.pos.x, (int)p.pos.y);
         color newCol = color(
-          lerp(hue(currentCol), hue(p.col), 0.3),
-          lerp(saturation(currentCol), saturation(p.col), 0.1),
-          lerp(brightness(currentCol), brightness(p.col), 0.01)
+          hue(p.col),
+          saturation(p.col),
+          brightness(p.col),
+          max(p.alpha,alpha(currentCol))
         );
         particleCanvas.set((int)p.pos.x, (int)p.pos.y, newCol);
       }
     }
     
     particleCanvas.endDraw();
+  }
+  
+  //reset
+  public void reset(){
+    particleCanvas.beginDraw();
+    particleCanvas.background(255,255,255,0);
+    particleCanvas.endDraw();
+    particles.clear();
   }
 }
 
@@ -84,6 +93,7 @@ class Particle{
   int lifetime;
   int spawnTime;
   color col;
+  int alpha = 0;
   
   public Particle(PVector pos, int lifetime, color col){
     this.pos = pos;
@@ -91,9 +101,11 @@ class Particle{
     this.col = col;
     this.velocity = new PVector();
     spawnTime = millis();
+    alpha = 255-vf.getHeight(pos);
   }
   
   public void update(){
+    alpha += (255-vf.getHeight(pos)-alpha)*dt;
     this.velocity.add(PVector.mult(vf.getAcc(pos), dt));
     this.pos.add(PVector.mult(this.velocity, dt));
     // damp

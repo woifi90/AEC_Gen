@@ -49,7 +49,7 @@ class KeyboardPlayer
     this.right = right;
     
     codedKey = true;
-    pos = new PVector(random(WindowWidth),random(WallHeight,WindowHeight)); //<>//
+    pos = new PVector(random(WindowWidth),random(WallHeight,WindowHeight));
     angle = 0;
     velocity = 0;
     angVel = 0;

@@ -56,7 +56,7 @@ class VectorField{
       noStroke();
       for (int x = 0; x<fieldCountX; x++){
         for (int y = 0; y<fieldCountY; y++){
-          fill(this.heights[x][y]); //<>// //<>//
+          fill(this.heights[x][y]); //<>//
           rect(x*SIZE, y*SIZE, SIZE, SIZE);
         }
       }
@@ -209,13 +209,19 @@ class VectorField{
     return new PVector();
   }
   
-  public int getColorValue(PVector pos){
-    int x = (int)(pos.x/SIZE);
-    int y = (int)(pos.y/SIZE);
-    if (x<fieldCountX && y < fieldCountY && x>=0 && y>=0){
-      return heights[x][y];
+  public int getHeight(PVector pos){
+    int x = (int)pos.x;
+    int y = (int)pos.y;
+    if (x<WindowWidth && y < FloorHeight && x>=0 && y>=0){
+      return (int)red(heightfield.get(x,y));
     }
     return 255;
+  }
+  
+  public void reset(){
+    heightfield.beginDraw();
+    heightfield.background(heightfieldDefaultValue);
+    heightfield.endDraw();
   }
   
   
