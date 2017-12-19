@@ -32,33 +32,22 @@ class StateA extends State {
     background(240);
     //guide.draw();
     
-    heightfield.beginDraw();
-    heightfield.blendMode(MULTIPLY);
-    heightfield.noStroke();
-      int heightfieldStampSize = 40/shrink;
-      for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
-        Player p = playersEntry.getValue();
-        
-        p.spawnParticles();
-        
-        // influence heightfield on every player
-        heightfield.fill(p.getDisplacement());
-        heightfield.ellipse(p.getPosition().x, p.getPosition().y-WallHeight, heightfieldStampSize,heightfieldStampSize);
-      }
-      
-      for(KeyboardPlayer p: kps){
-        p.spawnParticles();        
-        heightfield.fill(p.getDisplacement());
-        heightfield.ellipse(p.getPosition().x, p.getPosition().y-WallHeight, heightfieldStampSize,heightfieldStampSize);
-        
-      }
-    heightfield.endDraw();
+    for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
+      Player p = playersEntry.getValue();
+      p.spawnParticles();  
+    }
+    vf.displace(pc.players.values().toArray());
     
+    for(KeyboardPlayer p: kps){
+      p.spawnParticles();        
+    }
+    vf.displace(kps.toArray());
     
     vf.update();
     ps.update();
     vf.draw();
     ps.draw();
+    
     fill(0);
     if(ps.doDraw)
       image(particleCanvas,0,0);

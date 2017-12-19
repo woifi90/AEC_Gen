@@ -7,32 +7,22 @@ class VectorField{
   
   // DEBUG
   public boolean drawHeightfield = false;
-  public boolean drawHeights = false;
   public boolean drawVectors = false;
 
   // size of a vector square in pixels
   private final int SIZE = 15;
   
   // scale each vector by this factor
-  private final int VSCALE = 4;
+  private final float VSCALE = 2;
   
   private int fieldCountX = (int)(WindowWidth/SIZE +1);
   private int fieldCountY = (int)(FloorHeight/SIZE +1);
   
   private PVector[][] vectors = new PVector[fieldCountX][fieldCountY];
   
-  private int[][] heights = new int[fieldCountX][fieldCountY];
-  
-  private PShader blur;
-  private int blurTimestamp = 0;
-  //blur every second
-  private final int BLUR_FREQ = 2000;
-  
-  
   
   public VectorField(){
-      heightfield = createGraphics(WindowWidth, FloorHeight);
-      
+      heightfield = createGraphics(fieldCountX, fieldCountY);
       // draw a perlin noise as base. May be obsolete
       
       heightfield.beginDraw();
@@ -51,9 +41,7 @@ class VectorField{
         }
         */
       heightfield.endDraw();
-      
-      // blur = loadShader("blur.glsl");
-      
+      heightfield.blendMode(MULTIPLY);
   }
   
   
@@ -61,18 +49,8 @@ class VectorField{
   void draw(){
     //draw heightfield
     if(drawHeightfield){
-      image(heightfield,0,0);
-    }
-    // draw a field of rectangles representing the average value
-    if (drawHeights){
-      noStroke();
-      for (int x = 0; x<fieldCountX; x++){
-        for (int y = 0; y<fieldCountY; y++){
-          fill(this.heights[x][y]); //<>// //<>//
-          rect(x*SIZE, y*SIZE, SIZE, SIZE);
-        }
-      }
-    }
+      image(heightfield,0,0, WindowWidth, FloorHeight);
+    } //<>//
     // draw the vectors representing the direction and strength
     if(drawVectors){
       stroke(0);
@@ -91,53 +69,14 @@ class VectorField{
   
   
   public void update(){
-    if(millis() - blurTimestamp > BLUR_FREQ){
-      //heightfield.beginDraw();
-      //heightfield.filter(BLUR, 1);
-      //heightfield.endDraw();
-      blurTimestamp = millis();
-    }
     // get the average value of the heighfield for each vectorfield
     heightfield.loadPixels();
-    for (int x = 0; x<fieldCountX; x++){
-      for (int y = 0; y<fieldCountY; y++){
-        heights[x][y] = calculateAverageValue(x,y);
-      }
-    }
     // set the vector to the direction of the lowest neighbouring value
     for (int x = 0; x<fieldCountX; x++){
       for (int y = 0; y<fieldCountY; y++){
         vectors[x][y] = findDownVector(x, y);
       }
     }
-  }
-  
-  
-  
-  // calculates the average value from heightfield 
-  // for the area of a vectorfield
-  private int calculateAverageValue(int x, int y){
-    int sum = 0;
-    // samples only part the pixels for better performance
-    int step = 4;
-    int pixelCounter = 0;
-    
-    for(int a = 0;a<SIZE;a+= step){
-      for(int b =0;b<SIZE;b+= step){
-        // check for out of bounds, else just use the default
-        if(a+x*SIZE < WindowWidth && b+y*SIZE < FloorHeight){
-           int value = (int)red(heightfield.pixels[a+x*SIZE + b+y*SIZE*heightfield.width]);
-           sum += value;
-         }
-         else {
-           sum += heightfieldDefaultValue;
-         }
-         pixelCounter++;
-        
-      }
-    }
-    
-    return sum / pixelCounter;
   }
   
   
@@ -149,44 +88,44 @@ class VectorField{
     
     int dx = 0;
     int dy = 0;
-    
-    int center = heights[x][y];
+    int w = heightfield.width;
+    int center = (int)red(heightfield.pixels[x + y * w]);
     
     // check top left
     if(y > 0 && x > 0){
-      dx -= center - heights[x-1][y-1];
-      dy -= center - heights[x-1][y-1];
+      dx -= center - (int)red(heightfield.pixels[x-1 + (y-1)*w]);
+      dy -= center - (int)red(heightfield.pixels[x-1 + (y-1)*w]);
     }
     // check top
     if (y > 0){
-      dy -= center - heights[x][y-1];
+      dy -= center - (int)red(heightfield.pixels[x + (y-1)*w]);
     }
     // check top right
     if(y > 0 && x < fieldCountX -1){
-      dx += center - heights[x+1][y-1];
-      dy -= center - heights[x+1][y-1];
+      dx += center - (int)red(heightfield.pixels[x+1 + (y-1)*w]);
+      dy -= center - (int)red(heightfield.pixels[x+1 + (y-1)*w]);
     }
     // check left
     if(x > 0){
-      dx -= center - heights[x-1][y];
+      dx -= center - (int)red(heightfield.pixels[x-1 + y*w]);
     }
     // check right
     if(x < fieldCountX-1){
-      dx += center - heights[x+1][y];
+      dx += center - (int)red(heightfield.pixels[x+1 + y*w]);
     }
     // check bottom left
     if(x >0 && y < fieldCountY -1){
-      dx -= center - heights[x-1][y+1];
-      dy += center - heights[x-1][y+1];
+      dx -= center - (int)red(heightfield.pixels[x-1 + (y+1)*w]);
+      dy += center - (int)red(heightfield.pixels[x-1 + (y+1)*w]);
     }
     // check bottom
     if(y < fieldCountY-1){
-      dy += center - heights[x][y+1];
+      dy += center - (int)red(heightfield.pixels[x + (y+1)*w]);
     }
     // check bottom right
     if(x < fieldCountX -1 && y < fieldCountY -1){
-      dx += center - heights[x+1][y+1];
-      dy += center - heights[x+1][y+1];
+      dx += center - (int)red(heightfield.pixels[x+1 + (y+1)*w]);
+      dy += center - (int)red(heightfield.pixels[x+1 + (y+1)*w]);
     }
     
 
@@ -219,7 +158,6 @@ class VectorField{
   // returns the vector for the given position multiplied by VSCALE
   // no searching because I can calculate the right vectorfield based on position
   public PVector getAcc(PVector pos){
-
     int x = (int)(pos.x/SIZE);
     int y = (int)(pos.y/SIZE);
     if (x<fieldCountX && y < fieldCountY && x>=0 && y>=0){
@@ -229,9 +167,9 @@ class VectorField{
   }
   
   public int getHeight(PVector pos){
-    int x = (int)pos.x;
-    int y = (int)pos.y;
-    if (x<WindowWidth && y < FloorHeight && x>=0 && y>=0){
+    int x = (int)pos.x/SIZE;
+    int y = (int)pos.y/SIZE;
+    if (x<fieldCountX && y < fieldCountY && x>=0 && y>=0){
       return (int)red(heightfield.pixels[x + y * heightfield.width]);
     }
     return 255;
@@ -240,6 +178,18 @@ class VectorField{
   public void reset(){
     heightfield.beginDraw();
     heightfield.background(heightfieldDefaultValue);
+    heightfield.endDraw();
+  }
+  
+  public void displace(Object[] players){
+    heightfield.beginDraw();
+    heightfield.noStroke();
+    for(Object op : players){
+      Player p = (Player)op;
+      PVector pos = p.getPosition();
+      heightfield.fill(p.getDisplacement());
+      heightfield.ellipse(pos.x/SIZE,(pos.y-WallHeight)/SIZE,1,1);
+    }
     heightfield.endDraw();
   }
   
