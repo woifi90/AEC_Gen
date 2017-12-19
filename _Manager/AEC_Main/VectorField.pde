@@ -10,7 +10,7 @@ class VectorField{
   public boolean drawVectors = false;
 
   // size of a vector square in pixels
-  private final int SIZE = 15;
+  private final int SIZE = 30/shrink;
   
   // scale each vector by this factor
   private final float VSCALE = 1;
@@ -21,7 +21,7 @@ class VectorField{
   private PVector[][] vectors = new PVector[fieldCountX][fieldCountY];
   
   private int blurTimestamp = 0;
-  private final int BLUR_FREQ = 10000;
+  private final int BLUR_FREQ = 5000;
   
   
   public VectorField(){
@@ -74,12 +74,12 @@ class VectorField{
   public void update(){
     heightfield.loadPixels();
     // blur heightfield every 2 seconds
+    
     if(millis() - blurTimestamp > BLUR_FREQ){
       //TODO write own blur that is not that strong
       int[] heightfieldBuffer = heightfield.pixels.clone();
-      for(int i=0; i<heightfieldBuffer.length; i++){
-        heightfield.pixels[i] = blur(i, heightfieldBuffer);
-      }
+      shiftBlur1(heightfieldBuffer, heightfield.pixels);
+      heightfield.updatePixels();
       blurTimestamp = millis();
     }
     
@@ -91,12 +91,178 @@ class VectorField{
     }
   }
   
-  private void blur(int[] heightfieldBuffer){
-    for(int i=0;i<heightfieldBuffer.length;i++){
-      if(i>0) ;
-      
-      if(i<heightfieldBuffer.length) ;
+
+  private void shiftBlur1(int[] s, int[] t) { // source & target buffer
+    int yOffset = 0;
+    int w = heightfield.width;
+    int h = heightfield.height;
+    for (int i = 1; i < (w-1); ++i) {
+  
+      yOffset = w*(h-1);
+      // top edge (minus corner pixels)
+      t[i] = (((((s[i] & 0xFF) << 2 ) + 
+        (s[i+1] & 0xFF) + 
+        (s[i-1] & 0xFF) + 
+        (s[i + w] & 0xFF) + 
+        (s[i + yOffset] & 0xFF)) >> 3)  & 0xFF) +
+        (((((s[i] & 0xFF00) << 2 ) + 
+        (s[i+1] & 0xFF00) + 
+        (s[i-1] & 0xFF00) + 
+        (s[i + w] & 0xFF00) + 
+        (s[i + yOffset] & 0xFF00)) >> 3)  & 0xFF00) +
+        (((((s[i] & 0xFF0000) << 2 ) + 
+        (s[i+1] & 0xFF0000) + 
+        (s[i-1] & 0xFF0000) + 
+        (s[i + w] & 0xFF0000) + 
+        (s[i + yOffset] & 0xFF0000)) >> 3)  & 0xFF0000) +
+        0xFF000000; //ignores transparency
+  
+      // bottom edge (minus corner pixels)
+      t[i + yOffset] = (((((s[i + yOffset] & 0xFF) << 2 ) + 
+        (s[i - 1 + yOffset] & 0xFF) + 
+        (s[i + 1 + yOffset] & 0xFF) +
+        (s[i + yOffset - w] & 0xFF) +
+        (s[i] & 0xFF)) >> 3) & 0xFF) +
+        (((((s[i + yOffset] & 0xFF00) << 2 ) + 
+        (s[i - 1 + yOffset] & 0xFF00) + 
+        (s[i + 1 + yOffset] & 0xFF00) +
+        (s[i + yOffset] & 0xFF00) +
+        (s[i] & 0xFF00)) >> 3) & 0xFF00) +
+        (((((s[i + yOffset] & 0xFF0000) << 2 ) + 
+        (s[i - 1 + yOffset] & 0xFF0000) + 
+        (s[i + 1 + yOffset] & 0xFF0000) +
+        (s[i + yOffset - w] & 0xFF0000) +
+        (s[i] & 0xFF0000)) >> 3) & 0xFF0000) +
+        0xFF000000;    
+  
+      // central square
+      for (int j = 1; j < (h-1); ++j) {
+        yOffset = j*w;
+        t[i + yOffset] = (((((s[i + yOffset] & 0xFF) << 2 ) +
+          (s[i + 1 + yOffset] & 0xFF) +
+          (s[i - 1 + yOffset] & 0xFF) +
+          (s[i + yOffset + w] & 0xFF) +
+          (s[i + yOffset - w] & 0xFF)) >> 3) & 0xFF) +
+          (((((s[i + yOffset] & 0xFF00) << 2 ) +
+          (s[i + 1 + yOffset] & 0xFF00) +
+          (s[i - 1 + yOffset] & 0xFF00) +
+          (s[i + yOffset + w] & 0xFF00) +
+          (s[i + yOffset - w] & 0xFF00)) >> 3) & 0xFF00) +
+          (((((s[i + yOffset] & 0xFF0000) << 2 ) +
+          (s[i + 1 + yOffset] & 0xFF0000) +
+          (s[i - 1 + yOffset] & 0xFF0000) +
+          (s[i + yOffset + w] & 0xFF0000) +
+          (s[i + yOffset - w] & 0xFF0000)) >> 3) & 0xFF0000) +
+          0xFF000000;
+      }
     }
+  
+    // left and right edge (minus corner pixels)
+    for (int j = 1; j < (h-1); ++j) {
+      yOffset = j*w;
+      t[yOffset] = (((((s[yOffset] & 0xFF) << 2 ) +
+        (s[yOffset + 1] & 0xFF) +
+        (s[yOffset + w - 1] & 0xFF) +
+        (s[yOffset + w] & 0xFF) +
+        (s[yOffset - w] & 0xFF) ) >> 3) & 0xFF) +
+        (((((s[yOffset] & 0xFF00) << 2 ) +
+        (s[yOffset + 1] & 0xFF00) +
+        (s[yOffset + w - 1] & 0xFF00) +
+        (s[yOffset + w] & 0xFF00) +
+        (s[yOffset - w] & 0xFF00) ) >> 3) & 0xFF00) +
+        (((((s[yOffset] & 0xFF0000) << 2 ) +
+        (s[yOffset + 1] & 0xFF0000) +
+        (s[yOffset + w - 1] & 0xFF0000) +
+        (s[yOffset + w] & 0xFF0000) +
+        (s[yOffset - w] & 0xFF0000) ) >> 3) & 0xFF0000) +
+        0xFF000000;
+  
+      t[yOffset + w - 1] = (((((s[(j+1)*w - 1] & 0xFF) << 2 ) +
+        (s[j*w] & 0xFF) +
+        (s[yOffset + w - 2] & 0xFF) +
+        (s[yOffset + (w<<1) - 1] & 0xFF) +
+        (s[yOffset - 1] & 0xFF)) >> 3) & 0xFF) +
+        (((((s[yOffset + w - 1] & 0xFF00) << 2) +
+        (s[yOffset] & 0xFF00) +
+        (s[yOffset + w - 2] & 0xFF00) +
+        (s[yOffset + (w<<1) - 1] & 0xFF00) +
+        (s[yOffset - 1] & 0xFF00)) >> 3) & 0xFF00) +
+        (((((s[yOffset + w - 1] & 0xFF0000) << 2) +
+        (s[yOffset] & 0xFF0000) +
+        (s[yOffset + w - 2] & 0xFF0000) +
+        (s[yOffset + (w<<1) - 1] & 0xFF0000) +
+        (s[yOffset - 1] & 0xFF0000)) >> 3) & 0xFF0000) +
+        0xFF000000;
+    }
+  
+    // corner pixels
+    t[0] = (((((s[0] & 0xFF) << 2) + 
+      (s[1] & 0xFF) + 
+      (s[w-1] & 0xFF) + 
+      (s[w] & 0xFF) + 
+      (s[w*(h-1)] & 0xFF)) >> 3)  & 0xFF) +
+      (((((s[0] & 0xFF00) << 2) + 
+      (s[1] & 0xFF00) + 
+      (s[w-1] & 0xFF00) + 
+      (s[w] & 0xFF00) + 
+      (s[w*(h-1)] & 0xFF00)) >> 3)  & 0xFF00) +
+      (((((s[0] & 0xFF0000) << 2) + 
+      (s[1] & 0xFF0000) + 
+      (s[w-1] & 0xFF0000) + 
+      (s[w] & 0xFF0000) + 
+      (s[w*(h-1)] & 0xFF0000)) >> 3)  & 0xFF0000) +
+      0xFF000000;
+  
+    t[w - 1 ] = (((((s[w-1] & 0xFF) << 2) + 
+      (s[w-2] & 0xFF) + 
+      (s[0] & 0xFF) + 
+      (s[(w<<1) - 1] & 0xFF) + 
+      (s[w*h-1] & 0xFF) ) >> 3) & 0xFF) +
+      (((((s[w-1] & 0xFF00) << 2) + 
+      (s[w-2] & 0xFF00) + 
+      (s[0] & 0xFF00) + 
+      (s[(w<<1) - 1] & 0xFF00) + 
+      (s[w*h-1] & 0xFF00) ) >> 3) & 0xFF00) +
+      (((((s[w-1] & 0xFF0000) << 2) + 
+      (s[w-2] & 0xFF0000) + 
+      (s[0] & 0xFF0000) + 
+      (s[(w<<1) - 1] & 0xFF0000) + 
+      (s[w*h-1] & 0xFF0000) ) >> 3) & 0xFF0000) +
+      0xFF000000;
+  
+    t[w * h - 1] = (((((s[w*h-1] & 0xFF) << 2) + 
+      (s[w-1] & 0xFF) + 
+      (s[w*(h-1)-1] & 0xFF) + 
+      (s[w*h-2] & 0xFF) + 
+      (s[w*(h-1)] & 0xFF) ) >> 3) & 0xFF) +
+      (((((s[w*h-1] & 0xFF00) << 2) + 
+      (s[w-1] & 0xFF00) + 
+      (s[w*(h-1)-1] & 0xFF00) + 
+      (s[w*h-2] & 0xFF00) + 
+      (s[w*(h-1)] & 0xFF00) ) >> 3) & 0xFF00) +
+      (((((s[w*h-1] & 0xFF0000) << 2) + 
+      (s[w-1] & 0xFF0000) + 
+      (s[w*(h-1)-1] & 0xFF0000) + 
+      (s[w*h-2] & 0xFF0000) + 
+      (s[w*(h-1)] & 0xFF0000) ) >> 3) & 0xFF0000) +
+      0xFF000000;
+  
+    t[w *(h-1)] = (((((s[w*(h-1)] & 0xFF) << 2) + 
+      (s[w*(h-1) + 1] & 0xFF) + 
+      (s[w*h-1] & 0xFF) + 
+      (s[w*(h-2)] & 0xFF) + 
+      (s[0] & 0xFF) ) >> 3) & 0xFF) +
+      (((((s[w*(h-1)] & 0xFF00) << 2) + 
+      (s[w*(h-1) + 1] & 0xFF00) + 
+      (s[w*h-1] & 0xFF00) + 
+      (s[w*(h-2)] & 0xFF00) + 
+      (s[0] & 0xFF00) ) >> 3) & 0xFF00) +
+      (((((s[w*(h-1)] & 0xFF0000) << 2) + 
+      (s[w*(h-1) + 1] & 0xFF0000) + 
+      (s[w*h-1] & 0xFF0000) + 
+      (s[w*(h-2)] & 0xFF0000) + 
+      (s[0] & 0xFF0000) ) >> 3) & 0xFF0000) +
+      0xFF000000;
   }
   
   // check the neighbouring fields of the heights array 

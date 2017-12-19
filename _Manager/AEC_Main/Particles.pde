@@ -63,9 +63,9 @@ class ParticleSystem{
       if(p.velocity.mag() > 16/shrink && this.checkBounds(p.pos) && this.checkBounds(p.oldPos)){
         color currentCol = particleCanvas.pixels[(int)p.pos.x + (int)(p.pos).y*particleCanvas.width];
         color newCol = color(
-          lerp(hue(currentCol),hue(p.col),0.3),
-          lerp(saturation(currentCol),saturation(p.col),0.3),
-          lerp(brightness(currentCol),brightness(p.col),0.3),
+          lerp(hue(currentCol),hue(p.col),0.5),
+          lerp(saturation(currentCol),saturation(p.col),0.5),
+          lerp(brightness(currentCol),brightness(p.col),0.5),
           max(p.alpha,alpha(currentCol))
         );
         this.simpleLineDraw((int)p.pos.x, (int)p.pos.y, (int)p.oldPos.x, (int)p.oldPos.y, newCol); 

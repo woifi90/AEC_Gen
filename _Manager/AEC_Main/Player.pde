@@ -2,8 +2,8 @@
 
 abstract class Player{
   
-  private final int BRUSH_SIZE = 80/shrink;
-  private final int PARTICLE_COUNT = 3;
+  private final int BRUSH_SIZE = 60/shrink;
+  private final int PARTICLE_COUNT = 5;
   
   private color col;
   
