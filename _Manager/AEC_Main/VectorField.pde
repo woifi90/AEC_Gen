@@ -68,7 +68,7 @@ class VectorField{
       noStroke();
       for (int x = 0; x<fieldCountX; x++){
         for (int y = 0; y<fieldCountY; y++){
-          fill(this.heights[x][y]); //<>//
+          fill(this.heights[x][y]); //<>// //<>//
           rect(x*SIZE, y*SIZE, SIZE, SIZE);
         }
       }
@@ -92,12 +92,13 @@ class VectorField{
   
   public void update(){
     if(millis() - blurTimestamp > BLUR_FREQ){
-      heightfield.beginDraw();
+      //heightfield.beginDraw();
       //heightfield.filter(BLUR, 1);
-      heightfield.endDraw();
+      //heightfield.endDraw();
       blurTimestamp = millis();
     }
     // get the average value of the heighfield for each vectorfield
+    heightfield.loadPixels();
     for (int x = 0; x<fieldCountX; x++){
       for (int y = 0; y<fieldCountY; y++){
         heights[x][y] = calculateAverageValue(x,y);
@@ -125,7 +126,7 @@ class VectorField{
       for(int b =0;b<SIZE;b+= step){
         // check for out of bounds, else just use the default
         if(a+x*SIZE < WindowWidth && b+y*SIZE < FloorHeight){
-           int value = (int)red(heightfield.get(a+x*SIZE,b+y*SIZE));
+           int value = (int)red(heightfield.pixels[a+x*SIZE + b+y*SIZE*heightfield.width]);
            sum += value;
          }
          else {
@@ -231,7 +232,7 @@ class VectorField{
     int x = (int)pos.x;
     int y = (int)pos.y;
     if (x<WindowWidth && y < FloorHeight && x>=0 && y>=0){
-      return (int)red(heightfield.get(x,y));
+      return (int)red(heightfield.pixels[x + y * heightfield.width]);
     }
     return 255;
   }

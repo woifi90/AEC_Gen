@@ -1,5 +1,5 @@
 // the canvas to which particles paint
-PGraphics particleCanvas;
+PImage particleCanvas;
 
 // manages particles motion, spawning and killing
 class ParticleSystem{
@@ -14,10 +14,7 @@ class ParticleSystem{
 
   // the canvas is created on instantiation
   public ParticleSystem(){
-    particleCanvas = createGraphics(WindowWidth, FloorHeight);
-    particleCanvas.beginDraw();
-    particleCanvas.background(255,255,255,0);
-    particleCanvas.endDraw();
+    particleCanvas = createImage(WindowWidth, FloorHeight,ARGB);
   }
   
   // create a particle needs position, a lifetime and a color
@@ -57,33 +54,38 @@ class ParticleSystem{
   
   // paint to particleCanvas
   public void draw(){
-    particleCanvas.beginDraw();
+    particleCanvas.loadPixels();
     
     // paint each particle that moves faster than threshold 
     // in the color of the particle
     for(Particle p: particles){
-      if(p.velocity.mag() > 5){
-        color currentCol = particleCanvas.get((int)p.pos.x, (int)p.pos.y);
+      if(p.velocity.mag() > 16/shrink && p.pos.x >=0 && p.pos.y >= 0 && p.pos.x < particleCanvas.width && p.pos.y < particleCanvas.height){
+        color currentCol = particleCanvas.pixels[(int)p.pos.x + (int)(p.pos).y*particleCanvas.width];
         color newCol = color(
           lerp(hue(currentCol),hue(p.col),0.3),
           lerp(saturation(currentCol),saturation(p.col),0.3),
           lerp(brightness(currentCol),brightness(p.col),0.3),
           max(p.alpha,alpha(currentCol))
         );
-        particleCanvas.set((int)p.pos.x, (int)p.pos.y, newCol);
+        particleCanvas.pixels[(int)p.pos.x+(int)p.pos.y*particleCanvas.width] = newCol;
       }
     }
     
-    particleCanvas.endDraw();
+    particleCanvas.updatePixels();
   }
   
   //reset
   public void reset(){
-    particleCanvas.beginDraw();
-    particleCanvas.background(255,255,255,0);
-    particleCanvas.endDraw();
+    particleCanvas.loadPixels();
+    color clearCol = color(255,255,255,0);
+    for(int i = 0; i< particleCanvas.pixels.length; i++){
+      particleCanvas.pixels[i] = clearCol;
+    }
+    particleCanvas.updatePixels();
     particles.clear();
   }
+  
+  
 }
 
 class Particle{
