@@ -13,12 +13,15 @@ class VectorField{
   private final int SIZE = 15;
   
   // scale each vector by this factor
-  private final float VSCALE = 2;
+  private final float VSCALE = 1;
   
   private int fieldCountX = (int)(WindowWidth/SIZE +1);
   private int fieldCountY = (int)(FloorHeight/SIZE +1);
   
   private PVector[][] vectors = new PVector[fieldCountX][fieldCountY];
+  
+  private int blurTimestamp = 0;
+  private final int BLUR_FREQ = 10000;
   
   
   public VectorField(){
@@ -69,8 +72,17 @@ class VectorField{
   
   
   public void update(){
-    // get the average value of the heighfield for each vectorfield
     heightfield.loadPixels();
+    // blur heightfield every 2 seconds
+    if(millis() - blurTimestamp > BLUR_FREQ){
+      //TODO write own blur that is not that strong
+      int[] heightfieldBuffer = heightfield.pixels.clone();
+      for(int i=0; i<heightfieldBuffer.length; i++){
+        heightfield.pixels[i] = blur(i, heightfieldBuffer);
+      }
+      blurTimestamp = millis();
+    }
+    
     // set the vector to the direction of the lowest neighbouring value
     for (int x = 0; x<fieldCountX; x++){
       for (int y = 0; y<fieldCountY; y++){
@@ -79,7 +91,13 @@ class VectorField{
     }
   }
   
-  
+  private void blur(int[] heightfieldBuffer){
+    for(int i=0;i<heightfieldBuffer.length;i++){
+      if(i>0) ;
+      
+      if(i<heightfieldBuffer.length) ;
+    }
+  }
   
   // check the neighbouring fields of the heights array 
   // combine all delta values to get a final vector 

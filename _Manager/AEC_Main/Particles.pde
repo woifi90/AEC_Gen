@@ -148,6 +148,6 @@ class Particle{
     alpha += (255-vf.getHeight(pos)-alpha)*dt;
     this.velocity.add(PVector.mult(vf.getAcc(pos), dt));
     this.pos.add(PVector.mult(this.velocity, dt));
-    this.velocity.mult(0.98);
+    this.velocity.mult(0.95);
   }
 }
