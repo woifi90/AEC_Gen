@@ -17,6 +17,7 @@ float dt = 0;
 StateMgr stateMgr;
 Minim player;
 AudioPlayer sound;
+ColorGen gen = new ColorGen();
 //Use AudioPlayer to load and play sound
 
 VectorField vf;

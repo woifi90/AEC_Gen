@@ -8,13 +8,14 @@ abstract class Player{
   private color col;
   
   public Player(){
-    col = color(random(255), random(100,240),random(50,240));
+    col = getColor();//color(random(255), random(100,240),random(50,240));
   }
   
 
   
   public color getColor(){
-    return col;
+    println(gen.getColor());
+    return gen.getColor();
   }
   
   public void spawnParticles(){

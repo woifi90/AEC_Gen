@@ -14,15 +14,14 @@ class StateA extends State {
   void setup(){
     
     clearBackground();
-    
     vf.reset();
     ps.reset();
-    
+    gen.setColorMode((int)random(3));
     kps.add(new KeyboardPlayer("wasd"));
     kps.add(new KeyboardPlayer("ijkl"));
     kps.add(new KeyboardPlayer(UP,LEFT,DOWN,RIGHT));
     imageMode(CORNER);
-    colorMode(HSB, 255);
+    colorMode(HSB);
     noTint();
     guide = new Guidance();
     arrow = loadImage("pfeil.png");

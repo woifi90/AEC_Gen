@@ -79,6 +79,10 @@ class PharusPlayer extends Player
      return new PVector(x,y);
   }
   
+  int getID(){
+    return this.id;
+  }
+  
   PVector getAverageVelocity(){
     PVector avg = new PVector();
     Iterator<PVector> it = this.velocityQueue.iterator();
