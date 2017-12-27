@@ -29,7 +29,7 @@ class StateA extends State {
   
   void draw() {
     background(240);
-    //guide.draw();
+    guide.draw();
     
     for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
       Player p = playersEntry.getValue();
@@ -56,12 +56,14 @@ class StateA extends State {
       kp.draw();
       
       // draw direction guidance
-      float dir = guide.getDominantDirection(kp.pos.x,kp.pos.y-WallHeight, kp.angle);
-      
+      //float dir = guide.getDominantDirection(kp.pos.x,kp.pos.y-WallHeight, kp.angle);
+      float dir = guide.getNewDirection(kp.pos.x,kp.pos.y-WallHeight, kp.angle);
+      //if(dir!=0)println(dir);
       pushMatrix();
      
       translate(kp.pos.x,kp.pos.y);
-      rotate(radians(-dir + 180 ));
+      //rotate(radians(-dir + 180 ));
+      rotate(dir + PI/2);
        scale((1.0/AEC_Main.shrink) * 2.0);
       translate(-arrow.width/2,-arrow.height/2);
       

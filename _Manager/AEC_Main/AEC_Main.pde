@@ -5,7 +5,7 @@
 
 import ddf.minim.*;
 
-static int shrink = 2;
+static int shrink = 3;
 int WindowWidth = 3030/shrink; // for real Deep Space this should be 3030
 int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
 int WallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -115,7 +115,10 @@ void keyPressed() {
       vf.drawVectors = !vf.drawVectors;
       break;
     case 'b':
-      //stateA.guide.changeShape();
+      stateA.guide.changeShape();
+      break;
+    case 'n':
+      stateA.guide.showShape();
       break;
   }
 } 
