@@ -3,7 +3,7 @@ class Guidance{
   private PImage source;
   private PImage sourceBlurred;
  boolean debug = false;
- boolean drawDebug = true;
+ boolean drawDebug = false;
  int scaleFactor = 16;
  int blurFactor = 1;
  boolean showShape = false;
@@ -77,7 +77,6 @@ class Guidance{
       if(p instanceof PharusPlayer){
         PharusPlayer pharus = (PharusPlayer) p;
         angle = pharus.velocity.heading(); 
-        
       }else{
         KeyboardPlayer kp = (KeyboardPlayer) p;
         angle = kp.angle;
@@ -93,7 +92,9 @@ class Guidance{
       rotate(dir + PI/2);
       scale((1.0/AEC_Main.shrink) * 2.0);
       translate(-arrow.width/2,-arrow.height/2);
+      tint(p.getColor());
       image(arrow,0,0);
+      noTint();
       popMatrix();
   }
   
