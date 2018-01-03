@@ -26,23 +26,9 @@ class VectorField{
   
   public VectorField(){
       heightfield = createGraphics(fieldCountX, fieldCountY);
-      // draw a perlin noise as base. May be obsolete
       
       heightfield.beginDraw();
       heightfield.background(heightfieldDefaultValue);
-        /*
-        heightfield.noStroke();
-        heightfield.background(heightfieldDefaultValue);
-        
-        noiseDetail(8,0.6);
-        // draw noise
-        for(int x = 0; x<width; x++){
-          for(int y = 0; y<height; y++){
-            int n = (int)(noise(x*0.005,y*0.005)*255);
-            heightfield.set(x,y,color(n));
-          }
-        }
-        */
       heightfield.endDraw();
       heightfield.blendMode(MULTIPLY);
   }

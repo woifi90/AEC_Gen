@@ -5,7 +5,7 @@
 
 import ddf.minim.*;
 
-static int shrink = 3;
+static int shrink = 4;
 int WindowWidth = 3030/shrink; // for real Deep Space this should be 3030
 int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
 int WallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -142,5 +142,6 @@ void backgroundColor(){
   tint(255, 100);
   image(img, 0, 0);
   filter(GRAY);
+  noTint();
    
 }

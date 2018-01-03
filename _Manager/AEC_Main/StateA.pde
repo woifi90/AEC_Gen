@@ -4,7 +4,8 @@ class StateA extends State {
   PImage arrow;
   
   int stateStart = 0;
-  int stateDuration = 1000*60*1;
+  // minutes + seconds
+  int stateDuration = 3 *60*1000 + 0 *1000;
   
   StateA() {
     super();
@@ -76,6 +77,7 @@ class StateA extends State {
       image(arrow,0,0);
       popMatrix();
     }
+    
     int remainingTime = stateStart + stateDuration - millis();
     
     String formattedTime = (remainingTime/60000+":"+nf((remainingTime/1000)%60,2));

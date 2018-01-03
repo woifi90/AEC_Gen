@@ -10,15 +10,20 @@ class StateC extends State {
     idOfStateA = _idOfStateA;
   }
   
+  void setup(){
+    guide.fadeinShape();  
+  }
+  
   void draw() {
     background(255);
     image(particleCanvas,0,0);
+    guide.draw();
   }
 
   // state transition from inside of state:
   // after 3 seconds, next state is A
   int getNextStateID() {
-    if (stateMgr.getTimeInState() > 3000)
+    if (stateMgr.getTimeInState() > 20000)
     {
       return 0; 
     }
