@@ -15,7 +15,7 @@ int FloorHeight = 1798/shrink;
 float dt = 0;
 
 StateMgr stateMgr;
-Minim player;
+Minim audioplayer;
 AudioPlayer sound;
 ColorGen gen = new ColorGen();
 //Use AudioPlayer to load and play sound
@@ -45,7 +45,7 @@ void setup() {
   noStroke();
   colorMode(HSB, 255);
   
-  player = new Minim(this);
+  audioplayer = new Minim(this);
   
   img = loadImage("sand_texture.jpg");
   img.resize(width,height); 
