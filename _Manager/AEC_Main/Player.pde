@@ -18,6 +18,10 @@ abstract class Player{
     return col;
   }
   
+  public void updateColor(){
+    col = gen.getColor();
+  }
+  
   public void spawnParticles(){
     for(int i = 0; i<PARTICLE_COUNT; i++){
       PVector pos = this.getPosition();

@@ -30,14 +30,14 @@ class ColorGen{
     switch(ColorMode) {
       case 1: 
       println("One");
-        return color(random(100,200),200,255);
+        return color(random(80,160),200,255);
       case 2: 
       println("Two");
-        return color(random(150,255),200,255);
+        return color(random(160,255),200,255);
       
       case 3: 
       println("Three");
-        return color(random(0,150),200,255);
+        return color(random(0,80),200,255);
     }
     return temp;
   }

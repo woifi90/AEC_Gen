@@ -5,7 +5,7 @@ PImage particleCanvas;
 class ParticleSystem{
   
   // random value applied to particle color on spawn to get variation
-  private final int RAND_COL = 15;
+  private final int RAND_COL = 10;
   
   // Debug
   public boolean doDraw = true;

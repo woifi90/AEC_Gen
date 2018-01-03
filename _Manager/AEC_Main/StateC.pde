@@ -11,7 +11,7 @@ class StateC extends State {
   }
   
   void setup(){
-    guide.fadeinShape();  
+    guide.fadeinShape();
   }
   
   void draw() {
@@ -22,7 +22,7 @@ class StateC extends State {
   }
 
   // state transition from inside of state:
-  // after 3 seconds, next state is A
+  // after 20 seconds, next state is A
   int getNextStateID() {
     if (stateMgr.getTimeInState() > 20000)
     {

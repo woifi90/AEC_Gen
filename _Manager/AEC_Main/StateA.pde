@@ -14,12 +14,17 @@ class StateA extends State {
   }
   
   void setup(){
+    ps.reset();
+    for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
+      Player p = playersEntry.getValue();
+      p.updateColor();
+    }
     gen.setColorMode((int)random(0,4));
     kps.add(new KeyboardPlayer("wasd"));
     kps.add(new KeyboardPlayer("ijkl"));
     kps.add(new KeyboardPlayer(UP,LEFT,DOWN,RIGHT));
     imageMode(CORNER);
-    colorMode(HSB);
+    colorMode(HSB,255);
     noTint();
     
     stateStart = millis();
@@ -30,7 +35,6 @@ class StateA extends State {
     background(240);
     kps.clear();
     vf.reset();
-    ps.reset();
   }
   
   void draw() {
