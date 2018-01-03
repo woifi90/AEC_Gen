@@ -20,7 +20,7 @@ class StateA extends State {
     clearBackground();
     vf.reset();
     ps.reset();
-    gen.setColorMode((int)random(1,4));
+    gen.setColorMode((int)random(0,4));
     kps.add(new KeyboardPlayer("wasd"));
     kps.add(new KeyboardPlayer("ijkl"));
     kps.add(new KeyboardPlayer(UP,LEFT,DOWN,RIGHT));
