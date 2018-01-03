@@ -82,7 +82,21 @@ class Guidance{
         angle = kp.angle;
       }
       
-      p.smoothedArrowDirection = guide.getDirection(pos.x,pos.y, angle); // + p.smoothedArrowDirection * (1 - p.smoothingFactor);
+      PVector v1 = new PVector(1,0);
+      PVector v2 = v1.copy();
+      v1.rotate(angle);
+      v2.rotate(p.smoothedAngle);
+      v2.lerp(v1, p.smoothingFactor);
+      p.smoothedAngle = v2.heading();
+      
+      v1.set(1,0);
+      v2.set(1,0);
+      v1.rotate(guide.getDirection(pos.x,pos.y, p.smoothedAngle));
+      v2.rotate(p.smoothedArrowDirection);
+      v2.lerp(v1, p.smoothingFactor);
+      p.smoothedArrowDirection = v2.heading();
+      
+      //p.smoothedArrowDirection = guide.getDirection(pos.x,pos.y, p.smoothedAngle ); // + p.smoothedArrowDirection * (1 - p.smoothingFactor);
       
       float dir = p.smoothedArrowDirection;
       //drawArrow(pos.x,pos.y, 10, dir);
