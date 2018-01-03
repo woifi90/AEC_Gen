@@ -3,9 +3,9 @@
 * v1.1
 */
 
-import ddf.minim.*;
 
-static int shrink = 2;
+
+static int shrink = 4;
 int WindowWidth = 3030/shrink; // for real Deep Space this should be 3030
 int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
 int WallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -15,8 +15,8 @@ int FloorHeight = 1798/shrink;
 float dt = 0;
 
 StateMgr stateMgr;
-Minim audioplayer;
-AudioPlayer sound;
+SoundManager sm;
+
 ColorGen gen = new ColorGen();
 //Use AudioPlayer to load and play sound
 
@@ -42,12 +42,12 @@ void settings(){
 }
 
 void setup() {
+  
   frameRate(30);
   noStroke();
   colorMode(HSB, 255);
   
-  audioplayer = new Minim(this);
-  
+  sm = new SoundManager(new Minim(this));
   img = loadImage("sand_texture.jpg");
   img.resize(width,height);
   
@@ -74,6 +74,8 @@ void setup() {
   stateMgr.setState(INTROSTATE);
   
   initPlayerTracking();
+  
+  
 }
 
 void draw() {

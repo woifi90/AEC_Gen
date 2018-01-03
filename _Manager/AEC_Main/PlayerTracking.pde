@@ -86,10 +86,7 @@ void drawPlayerTracking()
 void pharusPlayerAdded(PharusPlayer player)
 {
   println("Player " + player.id + " added");
-  
-  String[] sounds = { "Gong Clear 1.wav", "Gong Clear 2.wav", "Gong Clear 3.wav"};
-  soundAdd = audioplayer.loadFile(sounds[int(random(sounds.length))]);
-  soundAdd.play();
+  sm.playJoinSound();
 }
 
 void pharusPlayerRemoved(PharusPlayer player)

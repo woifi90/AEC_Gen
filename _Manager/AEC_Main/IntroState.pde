@@ -13,9 +13,9 @@ class IntroState extends State {
   float transparency;
   float transparency2;
   
-  boolean start;
-  boolean end;
-  boolean play;
+  boolean start = false;
+  boolean end = false;
+  boolean play = true;
  
   
   IntroState() {
@@ -27,7 +27,6 @@ class IntroState extends State {
   }
   
   void setup() {
-    
     //clearBackground(); 
     transparency = 0;
     transparency2 = 0;
@@ -72,10 +71,9 @@ class IntroState extends State {
     
     if(start){
       if(play){
-        sound = audioplayer.loadFile("gong.wav");
-        sound.play();
+        sm.playIntroGong();
         play=false;
-    }
+      }
       if (transparency < 255 && end == false){transparency += 1;}
       
       if(transparency == 255) {end = true; }
