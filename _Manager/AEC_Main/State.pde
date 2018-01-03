@@ -12,7 +12,12 @@ class State
   }
   
   // called just before state is changed
-  void cleanup(){}
+  void cleanup(){
+    loadPixels();
+    stateTransitionBuffer.loadPixels();
+    arrayCopy(pixels, stateTransitionBuffer.pixels);
+    stateTransitionBuffer.updatePixels();
+  }
   
   void draw() {
   }
