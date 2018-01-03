@@ -3,13 +3,12 @@ class Guidance{
   private PImage source;
   private PImage sourceBlurred;
  boolean debug = false;
- boolean drawDebug = false;
+ boolean drawDebug = true;
  int scaleFactor = 16;
  int blurFactor = 1;
  boolean showShape = false;
  
- private float weightOfIncreasingDistance = 1;
- private float weightOfHeight = 1;
+
  private float size;
   
   private int currentShape = 0;
@@ -58,64 +57,65 @@ class Guidance{
     }
   }
   
-  int sensorLength = 20;
-  float maxSteeringAngle = PI/2;
+  private int sensorLength = 10;
+  private int sampleDistance = 10;
+  private float weightOfIncreasingDistance = 1;
+  private float weightOfHeight = 1;
+  private float maxSteeringAngle = PI/2;
+  private int actualSensorLength;
   
   // down-to-earh method (angle in radians)
   public float getNewDirection(float x, float y, float angle){
-    float rightWeight = 0;
-    float leftWeight = 0;
-    PVector right = new PVector(0,10).rotate(angle);
-    
-    float sX = x;
-    float sY = y;
+
+    PVector right = new PVector(0,sampleDistance).rotate(angle);
     
     heightfield.get(int(x/size),int(y/size));
     
     // determine width of sensor
-    for(int i = 0; i < width/2; i++){
-      
-    }
+    PVector[] samplePos = new PVector[2]; // left and right sample pos, 0 being left, 1 being right
     
-    for(int i = 0; i < sensorLength/2; i++){
-      sX+=right.x;
-      sY+=right.y;
+    samplePos[0] = new PVector(x,y);
+    samplePos[1] = new PVector(x,y);
+    
+    float[] totalWeight = new float[2]; // total weight right and left
+    
+    for(int i = 0; i < width / sampleDistance; i++){
+      actualSensorLength = i;
+      
+      samplePos[0].x -= right.x;
+      samplePos[0].y -= right.y;
+      samplePos[1].x += right.x;
+      samplePos[1].y += right.y;
       
       // get weight of current sampling point, 0 being white and 1 being black
-      float weight = 1.0 - brightness(source.get((int)sX,(int)sY))/255f;
-      // set weight 0 if outside of canvas
-      if(sX < 0 || sX > width && sY < 0 || sX > WallHeight){
-        weight = 0;
+      float[] sampleWeight = new float[2]; // normalized sample weight, 0 being white and 1 being black
+      
+      // sample left and right
+      for(int n = 0; n < 2; n++){
+        sampleWeight[n] = 1.0 - brightness(source.get((int)samplePos[n].x,(int)samplePos[n].y))/255f;
+        if(samplePos[n].x < 0 || samplePos[n].x > width && samplePos[n].y < 0 || samplePos[n].y > WallHeight){
+          sampleWeight[n] = 0;
+        }
+        totalWeight[n] += sampleWeight[n];
+        
+        if(drawDebug){
+          stroke(255,0,0);
+          strokeWeight(sampleWeight[n]*3 + 1);
+          point(samplePos[n].x,samplePos[n].y);
+          point(samplePos[n].x,samplePos[n].y+WallHeight);
+        }
       }
-      rightWeight += weight;
-      if(drawDebug){
-        stroke(255,0,0);
-        strokeWeight(weight*3 + 1);
-        point(sX,sY);
-        point(sX,sY+WallHeight);
-      }
-    }
-    rightWeight /= sensorLength/2;
-    
-    sX = x;
-    sY = y;
-    for(int i = 0; i < sensorLength/2; i++){
-      sX-=right.x;
-      sY-=right.y;
-      float weight = 1.0 - brightness(source.get((int)sX,(int)sY))/255f;
-      if(sX < 0 || sX > width && sY < 0 || sX > WallHeight){
-        weight = 0;
-      }
-      leftWeight += weight;
-      if(drawDebug){
-        stroke(255,0,0);
-        point(sX,sY);
-        point(sX,sY+WallHeight);
+      
+      if(i > sensorLength && totalWeight[0] + totalWeight[1] > 0.1){
+        break;
       }
     }
-    leftWeight /= sensorLength/2;
     
-    float diff = rightWeight - leftWeight;
+    // normalize total weights
+    totalWeight[0] /=  actualSensorLength;
+    totalWeight[1] /=  actualSensorLength;
+    
+    float diff = totalWeight[1] - totalWeight[0];
     
     if(diff == 0){
       if(x > width/2){
