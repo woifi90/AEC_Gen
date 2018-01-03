@@ -72,7 +72,7 @@ class IntroState extends State {
     
     if(start){
       if(play){
-        sound = player.loadFile("gong.wav");
+        sound = audioplayer.loadFile("gong.wav");
         sound.play();
         play=false;
     }

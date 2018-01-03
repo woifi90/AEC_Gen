@@ -9,7 +9,7 @@ PharusClient pc;
 boolean ShowPath = false;
 boolean ShowTrack = false;
 boolean ShowFeet = false;
-
+AudioPlayer soundAdd;
 float cursor_size = 25;
 
 void initPlayerTracking()
@@ -87,7 +87,9 @@ void pharusPlayerAdded(PharusPlayer player)
 {
   println("Player " + player.id + " added");
   
-  // TODO do something here if needed
+  soundAdd = audioplayer.loadFile("flute.wav");
+  soundAdd.play();
+  
 }
 
 void pharusPlayerRemoved(PharusPlayer player)
