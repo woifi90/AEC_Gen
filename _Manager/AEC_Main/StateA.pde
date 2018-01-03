@@ -26,7 +26,7 @@ class StateA extends State {
     imageMode(CORNER);
     colorMode(HSB);
     noTint();
-    guide = new Guidance();
+    
     arrow = loadImage("pfeil.png");
     stateStart = millis();
   }

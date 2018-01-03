@@ -62,6 +62,8 @@ void setup() {
   */
   INTROSTATE = stateMgr.addState(new IntroState(stateMgr));
   
+  guide = new Guidance();
+  
   stateA = new StateA(stateMgr);
   STATEA = stateMgr.addState(stateA);
   STATEB = stateMgr.addState(new StateB(stateMgr));
@@ -121,10 +123,10 @@ void keyPressed() {
       vf.drawVectors = !vf.drawVectors;
       break;
     case 'b':
-      stateA.guide.changeShape();
+      guide.changeShape();
       break;
     case 'n':
-      stateA.guide.toggleGuidanceDebug();
+      guide.toggleGuidanceDebug();
       break;
   }
 } 
