@@ -122,7 +122,7 @@ void keyPressed() {
       stateA.guide.changeShape();
       break;
     case 'n':
-      stateA.guide.showShape();
+      stateA.guide.toggleGuidanceDebug();
       break;
   }
 } 
