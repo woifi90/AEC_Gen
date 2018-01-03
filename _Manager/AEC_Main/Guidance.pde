@@ -3,7 +3,7 @@ class Guidance{
   private PImage source;
   private PImage sourceBlurred;
  boolean debug = false;
- boolean drawDebug = false;
+ boolean drawDebug = true;
  int scaleFactor = 16;
  int blurFactor = 1;
  boolean showShape = false;
@@ -67,7 +67,7 @@ class Guidance{
   private int actualSensorLength;
   
   // down-to-earh method (angle in radians)
-  public float getNewDirection(float x, float y, float angle){
+  public float getDirection(float x, float y, float angle){
 
     PVector right = new PVector(0,sampleDistance).rotate(angle);
     
@@ -94,7 +94,7 @@ class Guidance{
       
       // sample left and right
       for(int n = 0; n < 2; n++){
-        sampleWeight[n] = 1.0 - brightness(source.get((int)samplePos[n].x,(int)samplePos[n].y))/255f;
+        sampleWeight[n] = 1.0 - brightness(sourceBlurred.get((int)samplePos[n].x,(int)samplePos[n].y))/255f;
         if(samplePos[n].x < 0 || samplePos[n].x > width || samplePos[n].y < 0 || samplePos[n].y > source.height){
           sampleWeight[n] = 0;
         }
