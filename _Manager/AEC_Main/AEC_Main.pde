@@ -134,8 +134,9 @@ void keyReleased(){
 }
 
 void backgroundColor(){ 
-  background(color(25, 26, 93,1));
-  tint(255, 150);
+  //background(color(25, 26, 93,1));
+  tint(255, 100);
   image(img, 0, 0);
+  filter(GRAY);
    
 }
