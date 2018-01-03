@@ -14,10 +14,6 @@ class StateA extends State {
   }
   
   void setup(){
-    
-    clearBackground();
-    vf.reset();
-    ps.reset();
     gen.setColorMode((int)random(0,4));
     kps.add(new KeyboardPlayer("wasd"));
     kps.add(new KeyboardPlayer("ijkl"));
@@ -27,6 +23,14 @@ class StateA extends State {
     noTint();
     
     stateStart = millis();
+  }
+  
+  void cleanup(){
+    super.cleanup();
+    background(240);
+    kps.clear();
+    vf.reset();
+    ps.reset();
   }
   
   void draw() {
@@ -72,10 +76,5 @@ class StateA extends State {
     if(remainingTime < 0){stateMgr.setState(STATEC);}
     
   }  
-  
-  void clearBackground() {
-     background(240);
-     kps.clear();  
-  }
   
 }

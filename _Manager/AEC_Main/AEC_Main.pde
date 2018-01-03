@@ -23,7 +23,7 @@ ColorGen gen = new ColorGen();
 VectorField vf;
 ParticleSystem ps;
 PImage img;
-PImage stateChangeBuffer;
+PImage stateTransitionBuffer;
 
 ArrayList<KeyboardPlayer> kps;
 
@@ -50,7 +50,7 @@ void setup() {
   img = loadImage("sand_texture.jpg");
   img.resize(width,height); 
   
-  stateChangeBuffer = createImage(WindowWidth, WindowHeight, ARGB);
+  stateTransitionBuffer = createImage(WindowWidth, WindowHeight, ARGB);
   
   vf = new VectorField();  
   ps = new ParticleSystem();
@@ -139,5 +139,4 @@ void backgroundColor(){
   image(img, 0, 0);
   filter(GRAY);
   noTint();
-   
 }

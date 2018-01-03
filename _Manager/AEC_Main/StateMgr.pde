@@ -2,7 +2,8 @@
 class StateMgr {
  
   State[] states;
-  
+  PImage stateTransitionBuffer;
+
   int currentStateID;
   int stateStamp;
   
