@@ -35,7 +35,7 @@ class StateA extends State {
     background(240);
     guide.draw();
    
-   backgroundColor();
+    backgroundColor();
     
     for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
       Player p = playersEntry.getValue();
