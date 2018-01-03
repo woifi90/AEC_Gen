@@ -6,7 +6,7 @@ class ColorGen{
   ColorGen(){}
   
   void setup(){
-    colorMode(HSB);
+    colorMode(HSB,100);
   }
   void draw(){}
    
@@ -28,29 +28,28 @@ class ColorGen{
       case 1: 
       println("One");
       if(random(0,1) == 0){
-        return color(random(170),random(100,240),random(50,240));
+        return color(random(0,255),200,255);
       }
       else{
-        return color(random(310),random(100,240),random(50,240));
+        return color(random(0,255),200,255);
       }
       case 2: 
       println("Two");
       if(random(0,1) == 1){
-        return color(random(50),random(100,240),random(50,240));
+        return color(random(0,200),200,255);
       }
       else{
-        return color(random(260),random(100,240),random(50,240));
+        return color(random(0,155),200,255);
       }
       case 3: 
       println("Three");
       if(random(0,1) == 2){
-        return color(random(100),random(100,240),random(50,240));
+        return color(random(100,255),200,255);
       }
       else{
-        return color(random(360),random(100,240),random(50,240));
+        return color(random(50,200),200,255);
       }
     }
-
     return temp;
   }
   
