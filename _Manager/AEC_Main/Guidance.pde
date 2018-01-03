@@ -62,28 +62,46 @@ class Guidance{
   
   private int minimalSensorLength = 5;
   private int sampleDistance = 10;
-  private float weightOfIncreasingDistance = 1;
-  private float weightOfHeight = 1;
+  private float weightOfIncreasingDistance = 0.1;
+  private float weightOfHeight = 0.1;
   private float maxSteeringAngle = PI/2;
   private int actualSensorLength;
   PImage arrow;
   
-  public void drawGuidance(float x, float y, float angle){
-        float dir = guide.getDirection(x,y, angle);
+    public void drawGuidance(Player p){
+      PVector pos = p.getPosition().copy();
+      pos.y -= WallHeight;
+      
+      float angle;
+      
+      if(p instanceof PharusPlayer){
+        PharusPlayer pharus = (PharusPlayer) p;
+        angle = pharus.velocity.heading(); 
+        
+      }else{
+        KeyboardPlayer kp = (KeyboardPlayer) p;
+        angle = kp.angle;
+      }
+      
+      p.smoothedArrowDirection = guide.getDirection(pos.x,pos.y, angle); // + p.smoothedArrowDirection * (1 - p.smoothingFactor);
+      
+      float dir = p.smoothedArrowDirection;
+      //drawArrow(pos.x,pos.y, 10, dir);
+      
       pushMatrix();
-      translate(x,y);
+      translate(pos.x,pos.y + WallHeight);
       rotate(dir + PI/2);
-       scale((1.0/AEC_Main.shrink) * 2.0);
+      scale((1.0/AEC_Main.shrink) * 2.0);
       translate(-arrow.width/2,-arrow.height/2);
       image(arrow,0,0);
       popMatrix();
   }
+  
   // down-to-earh method (angle in radians)
   private float getDirection(float x, float y, float angle){
-    
     PVector right = new PVector(0,sampleDistance).rotate(angle);
     
-    heightfield.get(int(x/size),int(y/size));
+    
     
     // determine width of sensor
     PVector[] samplePos = new PVector[2]; // left and right sample pos, 0 being left, 1 being right
@@ -110,7 +128,9 @@ class Guidance{
         if(samplePos[n].x < 0 || samplePos[n].x > width || samplePos[n].y < 0 || samplePos[n].y > source.height){
           sampleWeight[n] = 0;
         }
-        totalWeight[n] += sampleWeight[n];
+        
+        float heightWeight = heightfield.get(int(samplePos[n].x/size),int(samplePos[n].y/size))/255; // 0 is max height
+        totalWeight[n] += sampleWeight[n];// * (i+1) * (1-weightOfIncreasingDistance);
         
         if(drawDebug){
           stroke(255,0,0);
@@ -120,7 +140,7 @@ class Guidance{
         }
       }
       
-      if(i > minimalSensorLength && totalWeight[0] + totalWeight[1] > 0.1){
+      if(i > minimalSensorLength && totalWeight[0] + totalWeight[1] > 3){
         break;
       }
     }
@@ -131,6 +151,7 @@ class Guidance{
     
     float diff = totalWeight[1] - totalWeight[0];
     
+    /*
     if(diff == 0){
       if(x > width/2){
         diff = 0.1;
@@ -138,6 +159,7 @@ class Guidance{
         diff = -0.1;
       }
     }
+    */
     
     return angle+diff*maxSteeringAngle;
   }
@@ -145,7 +167,7 @@ class Guidance{
   public void drawArrow(float cx, float cy, float len, float angle){
     pushMatrix();
     translate(cx, cy);
-    rotate(angle);
+    rotate(angle+PI/2);
     strokeWeight(2);
     stroke(150,0,0);
     line(0,0,len, 0);

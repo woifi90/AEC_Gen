@@ -40,8 +40,9 @@ class StateA extends State {
     backgroundColor();
     
     for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
-      Player p = playersEntry.getValue();
+      PharusPlayer p = playersEntry.getValue();
       p.spawnParticles();  
+      guide.drawGuidance(p);
     }
     vf.displace(pc.players.values().toArray());
     
@@ -66,7 +67,7 @@ class StateA extends State {
       kp.draw();
       
       // draw direction guidance
-      guide.drawGuidance(kp.pos.x,kp.pos.y-WallHeight, kp.angle);
+      guide.drawGuidance(kp);
     }
     
     int remainingTime = stateStart + stateDuration - millis();

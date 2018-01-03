@@ -7,11 +7,12 @@ abstract class Player{
   
   private color col;
   
+  float smoothingFactor = 0.5;
+  float smoothedArrowDirection = 0;
+  
   public Player(){
     col = getColor();
   }
-  
-
   
   public color getColor(){
     println(gen.getColor());
