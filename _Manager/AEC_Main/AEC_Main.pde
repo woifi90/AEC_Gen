@@ -22,6 +22,7 @@ ColorGen gen = new ColorGen();
 
 VectorField vf;
 ParticleSystem ps;
+PImage img;
 
 ArrayList<KeyboardPlayer> kps;
 
@@ -42,6 +43,9 @@ void setup() {
   colorMode(HSB, 255);
   
   player = new Minim(this);
+  
+  img = loadImage("sand_texture.jpg");
+  img.resize(width,height); 
   
   vf = new VectorField();  
   ps = new ParticleSystem();
@@ -129,10 +133,9 @@ void keyReleased(){
   }
 }
 
-void backgroundColor(){
-  PImage img = loadImage("sand_texture.jpg");
-  background(color(237, 201, 175));
+void backgroundColor(){ 
+  background(color(25, 26, 93,1));
   tint(255, 150);
   image(img, 0, 0);
-  img.resize(width,height);   
+   
 }

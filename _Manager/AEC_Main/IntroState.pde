@@ -46,7 +46,7 @@ class IntroState extends State {
   
   
   void draw() {
-    colorMode(RGB, 255);
+    colorMode(RGB);
     fillcolour = color(x, y, z);
     
     background(1);

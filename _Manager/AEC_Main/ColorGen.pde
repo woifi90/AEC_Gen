@@ -1,6 +1,6 @@
 class ColorGen{
   
-  int ColorMode;
+  int ColorMode = 1;
   color col;
   color finalCol;
   ColorGen(){}
