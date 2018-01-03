@@ -11,12 +11,11 @@ abstract class Player{
   float smoothedArrowDirection = 0;
   
   public Player(){
-    col = getColor();
+    col = gen.getColor();
   }
   
   public color getColor(){
-    println(gen.getColor());
-    return gen.getColor();
+    return col;
   }
   
   public void spawnParticles(){
