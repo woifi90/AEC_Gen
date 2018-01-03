@@ -3,11 +3,13 @@ class Guidance{
   private PImage source;
   private PImage sourceBlurred;
  boolean debug = false;
- boolean drawDebug = true;
+ boolean drawDebug = false;
  int scaleFactor = 16;
  int blurFactor = 1;
  boolean showShape = false;
- 
+
+ // todo: nach entfernung weighten
+ // fallback richtung wenn  nichts gefundne wird ( oder pfeil ausfaden )
 
  private float size;
   
@@ -57,7 +59,7 @@ class Guidance{
     }
   }
   
-  private int sensorLength = 10;
+  private int minimalSensorLength = 5;
   private int sampleDistance = 10;
   private float weightOfIncreasingDistance = 1;
   private float weightOfHeight = 1;
@@ -93,7 +95,7 @@ class Guidance{
       // sample left and right
       for(int n = 0; n < 2; n++){
         sampleWeight[n] = 1.0 - brightness(source.get((int)samplePos[n].x,(int)samplePos[n].y))/255f;
-        if(samplePos[n].x < 0 || samplePos[n].x > width && samplePos[n].y < 0 || samplePos[n].y > WallHeight){
+        if(samplePos[n].x < 0 || samplePos[n].x > width || samplePos[n].y < 0 || samplePos[n].y > source.height){
           sampleWeight[n] = 0;
         }
         totalWeight[n] += sampleWeight[n];
@@ -106,7 +108,7 @@ class Guidance{
         }
       }
       
-      if(i > sensorLength && totalWeight[0] + totalWeight[1] > 0.1){
+      if(i > minimalSensorLength && totalWeight[0] + totalWeight[1] > 0.1){
         break;
       }
     }
