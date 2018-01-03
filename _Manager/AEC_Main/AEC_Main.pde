@@ -33,6 +33,8 @@ int STATEC;
 
 StateA stateA;
 
+Guidance guide;
+
 void settings(){
   size(WindowWidth, WindowHeight);
 }

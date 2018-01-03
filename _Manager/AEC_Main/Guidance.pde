@@ -3,7 +3,7 @@ class Guidance{
   private PImage source;
   private PImage sourceBlurred;
  boolean debug = false;
- boolean drawDebug = true;
+ boolean drawDebug = false;
  int scaleFactor = 16;
  int blurFactor = 1;
  boolean showShape = false;

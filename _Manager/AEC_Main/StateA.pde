@@ -1,6 +1,6 @@
 class StateA extends State {
   
-  Guidance guide;
+  
   PImage arrow;
   
   int stateStart = 0;
