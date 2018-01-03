@@ -81,7 +81,7 @@ class IntroState extends State {
       if(transparency == 255) {end = true; }
       
       tint(0, transparency);
-      image(img,width/2,width/3);
+      image(img,width/2,WallHeight/2);
       img.resize(0, 70);
       
       if(transparency > 0 && end) {transparency -= 1;}

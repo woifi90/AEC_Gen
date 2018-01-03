@@ -23,6 +23,7 @@ ColorGen gen = new ColorGen();
 VectorField vf;
 ParticleSystem ps;
 PImage img;
+PImage paperTexture;
 PImage stateTransitionBuffer;
 
 ArrayList<KeyboardPlayer> kps;
@@ -48,7 +49,10 @@ void setup() {
   audioplayer = new Minim(this);
   
   img = loadImage("sand_texture.jpg");
-  img.resize(width,height); 
+  img.resize(width,height);
+  
+  paperTexture = loadImage("watercolorPaper_floor.jpg");
+  paperTexture.resize(WindowWidth,FloorHeight);
   
   stateTransitionBuffer = createImage(WindowWidth, WindowHeight, ARGB);
   
@@ -82,7 +86,6 @@ void draw() {
   fill(0);
   textSize(20);
   text((int)frameRate + " FPS", width / 2, 30);
-  text(ps.getParticleCount(), width / 2, 60);
 }
 
 void keyPressed() {
@@ -136,7 +139,8 @@ void keyReleased(){
 void backgroundColor(){ 
   //background(color(25, 26, 93,1));
   tint(255, 100);
-  image(img, 0, 0);
+  //image(img, 0, 0);
+  image(paperTexture, 0, WallHeight);
   filter(GRAY);
   noTint();
 }
