@@ -87,7 +87,7 @@ void pharusPlayerAdded(PharusPlayer player)
 {
   println("Player " + player.id + " added");
   
-  soundAdd = audioplayer.loadFile("flute.wav");
+  soundAdd = audioplayer.loadFile("flute.mp3");
   soundAdd.play();
   
 }

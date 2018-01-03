@@ -1,4 +1,3 @@
-
 // Version 3.1
 // this class contains all the information for one player and gets updated by the PharusClient
 // extend this class with your player code if needed, but do not change the functions and variables that are there already as PharusClient depends on it
