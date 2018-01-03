@@ -43,6 +43,7 @@ class VectorField{
     // draw the vectors representing the direction and strength
     if(drawVectors){
       stroke(0);
+      strokeWeight(1);
       for (int x = 0; x<fieldCountX; x++){
         for (int y = 0; y<fieldCountY; y++){
           float centerX = x * SIZE + SIZE/2;
