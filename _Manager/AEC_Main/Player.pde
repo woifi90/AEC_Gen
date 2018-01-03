@@ -7,7 +7,8 @@ abstract class Player{
   
   private color col;
   
-  float smoothingFactor = 0.5;
+  float smoothingFactor = 0.25;
+  float smoothedAngle = 0;
   float smoothedArrowDirection = 0;
   
   public Player(){

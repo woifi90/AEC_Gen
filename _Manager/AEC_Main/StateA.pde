@@ -42,7 +42,6 @@ class StateA extends State {
     for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
       PharusPlayer p = playersEntry.getValue();
       p.spawnParticles();  
-      guide.drawGuidance(p);
     }
     vf.displace(pc.players.values().toArray());
     
@@ -60,6 +59,11 @@ class StateA extends State {
     if(ps.doDraw){
       image(particleCanvas,0,0);
       image(particleCanvas,0,WallHeight);
+    }
+    
+    for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
+       PharusPlayer p = playersEntry.getValue();
+       guide.drawGuidance(p);
     }
     
     for(KeyboardPlayer kp: kps){
