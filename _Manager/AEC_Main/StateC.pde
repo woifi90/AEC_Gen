@@ -11,8 +11,8 @@ class StateC extends State {
   }
   
   void draw() {
-    fill(0, 0, 255);
-    rect(0, 0, width, height);    
+    background(255);
+    image(particleCanvas,0,0);
   }
 
   // state transition from inside of state:

@@ -3,6 +3,9 @@ class StateA extends State {
   Guidance guide;
   PImage arrow;
   
+  int stateStart = 0;
+  int stateDuration = 1000*60*1;
+  
   StateA() {
     super();
   }
@@ -25,6 +28,7 @@ class StateA extends State {
     noTint();
     guide = new Guidance();
     arrow = loadImage("pfeil.png");
+    stateStart = millis();
   }
   
   void draw() {
@@ -72,6 +76,11 @@ class StateA extends State {
       image(arrow,0,0);
       popMatrix();
     }
+    int remainingTime = stateStart + stateDuration - millis();
+    
+    String formattedTime = (remainingTime/60000+":"+nf((remainingTime/1000)%60,2));
+    text(formattedTime, 30,30);
+    if(remainingTime < 0){stateMgr.setState(STATEC);}
     
   }  
   
