@@ -11,7 +11,9 @@ class ColorGen{
   void draw(){}
    
   public void setColorMode(int x){  
-    ColorMode = x;  
+    if(x == 0)ColorMode=1;
+    else ColorMode = x;  
+    println(ColorMode);
   }
   
   color getColor(){
