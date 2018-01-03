@@ -1,6 +1,7 @@
 
 class State
 {
+  
   State() {
   }
   
@@ -17,9 +18,17 @@ class State
     stateTransitionBuffer.loadPixels();
     arrayCopy(pixels, stateTransitionBuffer.pixels);
     stateTransitionBuffer.updatePixels();
+    
+    stateMgr.transitionStart = millis();
   }
   
   void draw() {
+    if(stateMgr.transitionStart + stateMgr.transitionLength > millis()){
+      imageMode(CORNER);
+      tint(255,lerp(255,0, (millis() - stateMgr.transitionStart)/(float)stateMgr.transitionLength));
+      image(stateTransitionBuffer, 0,0);
+      noTint();
+    }
   }
   
   int getNextStateID() {

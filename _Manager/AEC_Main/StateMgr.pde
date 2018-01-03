@@ -4,6 +4,9 @@ class StateMgr {
   State[] states;
   PImage stateTransitionBuffer;
 
+  int transitionLength = 2000;
+  int transitionStart = 0;
+
   int currentStateID;
   int stateStamp;
   

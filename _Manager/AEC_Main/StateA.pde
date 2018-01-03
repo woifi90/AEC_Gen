@@ -75,6 +75,8 @@ class StateA extends State {
     text(formattedTime, 30,30);
     if(remainingTime < 0){stateMgr.setState(STATEC);}
     
+    super.draw();
+    
   }  
   
 }

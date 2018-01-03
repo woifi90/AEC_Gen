@@ -89,6 +89,7 @@ class IntroState extends State {
       if(transparency == 0 && end){stateMgr.setState(STATEA);}
       
     }
+    super.draw();
     
   }  
   
