@@ -1,5 +1,5 @@
 class StateA extends State {
-  PImage arrow;
+  
   
   int stateStart = 0;
   // minutes + seconds
@@ -26,7 +26,6 @@ class StateA extends State {
     colorMode(HSB);
     noTint();
     
-    arrow = loadImage("pfeil.png");
     stateStart = millis();
   }
   
@@ -63,14 +62,7 @@ class StateA extends State {
       kp.draw();
       
       // draw direction guidance
-      float dir = guide.getDirection(kp.pos.x,kp.pos.y-WallHeight, kp.angle);
-      pushMatrix();
-      translate(kp.pos.x,kp.pos.y);
-      rotate(dir + PI/2);
-       scale((1.0/AEC_Main.shrink) * 2.0);
-      translate(-arrow.width/2,-arrow.height/2);
-      image(arrow,0,0);
-      popMatrix();
+      guide.drawGuidance(kp.pos.x,kp.pos.y-WallHeight, kp.angle);
     }
     
     int remainingTime = stateStart + stateDuration - millis();
