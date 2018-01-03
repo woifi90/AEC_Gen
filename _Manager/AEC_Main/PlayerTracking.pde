@@ -87,9 +87,9 @@ void pharusPlayerAdded(PharusPlayer player)
 {
   println("Player " + player.id + " added");
   
-  soundAdd = audioplayer.loadFile("flute.mp3");
+  String[] sounds = { "Gong Clear 1.wav", "Gong Clear 2.wav", "Gong Clear 3.wav"};
+  soundAdd = audioplayer.loadFile(sounds[int(random(sounds.length))]);
   soundAdd.play();
-  
 }
 
 void pharusPlayerRemoved(PharusPlayer player)
