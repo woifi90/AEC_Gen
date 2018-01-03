@@ -25,7 +25,7 @@ class StateC extends State {
   int getNextStateID() {
     if (stateMgr.getTimeInState() > 20000)
     {
-      return 0; 
+      return STATEA; 
     }
     return super.getNextStateID();
   }  

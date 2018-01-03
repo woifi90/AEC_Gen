@@ -11,6 +11,9 @@ class State
   void setup() {
   }
   
+  // called just before state is changed
+  void cleanup(){}
+  
   void draw() {
   }
   

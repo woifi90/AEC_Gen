@@ -3,7 +3,7 @@ class Guidance{
   private PImage source;
   private PImage sourceBlurred;
  boolean debug = false;
- boolean drawDebug = false;
+ boolean drawDebug = true;
  int scaleFactor = 16;
  int blurFactor = 1;
  boolean showShape = false;
@@ -22,6 +22,7 @@ class Guidance{
     sourceBlurred = source.copy();
     sourceBlurred.filter(BLUR, blurFactor);
     size = 30/shrink;
+    arrow = loadImage("pfeil.png");
   }
   
   public void changeShape(){
@@ -65,10 +66,21 @@ class Guidance{
   private float weightOfHeight = 1;
   private float maxSteeringAngle = PI/2;
   private int actualSensorLength;
+  PImage arrow;
   
+  public void drawGuidance(float x, float y, float angle){
+        float dir = guide.getDirection(x,y, angle);
+      pushMatrix();
+      translate(x,y);
+      rotate(dir + PI/2);
+       scale((1.0/AEC_Main.shrink) * 2.0);
+      translate(-arrow.width/2,-arrow.height/2);
+      image(arrow,0,0);
+      popMatrix();
+  }
   // down-to-earh method (angle in radians)
-  public float getNewDirection(float x, float y, float angle){
-
+  private float getDirection(float x, float y, float angle){
+    
     PVector right = new PVector(0,sampleDistance).rotate(angle);
     
     heightfield.get(int(x/size),int(y/size));
@@ -94,7 +106,7 @@ class Guidance{
       
       // sample left and right
       for(int n = 0; n < 2; n++){
-        sampleWeight[n] = 1.0 - brightness(source.get((int)samplePos[n].x,(int)samplePos[n].y))/255f;
+        sampleWeight[n] = 1.0 - brightness(sourceBlurred.get((int)samplePos[n].x,(int)samplePos[n].y))/255f;
         if(samplePos[n].x < 0 || samplePos[n].x > width || samplePos[n].y < 0 || samplePos[n].y > source.height){
           sampleWeight[n] = 0;
         }

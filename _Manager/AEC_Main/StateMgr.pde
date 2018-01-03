@@ -12,6 +12,7 @@ class StateMgr {
     }
   
     if (newState != currentStateID) {
+      states[currentStateID].cleanup();
       currentStateID = newState;
       stateStamp = millis();
       states[currentStateID].setup();

@@ -23,6 +23,7 @@ ColorGen gen = new ColorGen();
 VectorField vf;
 ParticleSystem ps;
 PImage img;
+PImage stateChangeBuffer;
 
 ArrayList<KeyboardPlayer> kps;
 
@@ -49,17 +50,14 @@ void setup() {
   img = loadImage("sand_texture.jpg");
   img.resize(width,height); 
   
+  stateChangeBuffer = createImage(WindowWidth, WindowHeight, ARGB);
+  
   vf = new VectorField();  
   ps = new ParticleSystem();
   kps = new ArrayList<KeyboardPlayer>();
   
   stateMgr = new StateMgr();
-  /* TODO States
-  Intro (10 bis 15 sec)
-  Jede minute einen state (3 states), intensität steigert sich
-  
-  Ende (bilder zeigen)
-  */
+
   INTROSTATE = stateMgr.addState(new IntroState(stateMgr));
   
   guide = new Guidance();
@@ -76,17 +74,9 @@ void setup() {
 
 void draw() {
   dt = 1/frameRate;
+  
   stateMgr.getCurrentState().draw();
   stateMgr.updateStates();
-  
-  // state transition from application:
-  // switch from state B to state A or C after 2 seconds (randomly)
-  /*if (stateMgr.getCurrentStateID() == STATEB && stateMgr.getTimeInState() > 2000) {
-    if (int (random(2)) == 0)
-      stateMgr.setState(STATEA);
-    else
-      stateMgr.setState(STATEC);
-  }*/
   
   // draw UI
   fill(0);
@@ -127,6 +117,12 @@ void keyPressed() {
       break;
     case 'n':
       guide.toggleGuidanceDebug();
+      break;
+    case '+':
+      ((StateA)stateMgr.getState(STATEA)).stateDuration+=10*1000;
+      break;
+    case '-':
+      ((StateA)stateMgr.getState(STATEA)).stateDuration-=10*1000;
       break;
   }
 } 
