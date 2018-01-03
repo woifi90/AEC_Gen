@@ -55,8 +55,10 @@ class StateA extends State {
     ps.draw();
     
     fill(0);
-    if(ps.doDraw)
+    if(ps.doDraw){
       image(particleCanvas,0,0);
+      image(particleCanvas,0,WallHeight);
+    }
     
     for(KeyboardPlayer kp: kps){
       kp.update();

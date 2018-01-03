@@ -38,7 +38,7 @@ class VectorField{
   void draw(){
     //draw heightfield
     if(drawHeightfield){
-      image(heightfield,0,0, WindowWidth, FloorHeight);
+      image(heightfield,0,WallHeight, WindowWidth, FloorHeight);
     } //<>//
     // draw the vectors representing the direction and strength
     if(drawVectors){

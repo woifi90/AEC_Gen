@@ -5,7 +5,7 @@
 
 import ddf.minim.*;
 
-static int shrink = 4;
+static int shrink = 6;
 int WindowWidth = 3030/shrink; // for real Deep Space this should be 3030
 int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
 int WallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -69,7 +69,7 @@ void setup() {
   STATEB = stateMgr.addState(new StateB(stateMgr));
   STATEC = stateMgr.addState(new StateC(stateMgr, STATEA));
   
-  stateMgr.setState(STATEA);
+  stateMgr.setState(INTROSTATE);
   
   initPlayerTracking();
 }
