@@ -7,8 +7,9 @@ class StateMgr {
   int transitionLength = 2000;
   int transitionStart = 0;
 
-  int currentStateID;
-  int stateStamp;
+  int currentStateID = 0;
+  int stateStamp = millis();
+  
   
   int setState(int newState) {
     if (newState < 0 || newState >= states.length) {
@@ -50,6 +51,7 @@ class StateMgr {
       println("creating new states array");
       states = new State[1];
       states[0] = state;
+      state.setup();
     } else {
       states = (State[])append(states, state);
     }

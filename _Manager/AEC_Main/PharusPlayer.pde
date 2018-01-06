@@ -103,7 +103,7 @@ class PharusPlayer extends Player
   }
   
   public int getDisplacement(){
-    int maxWeight = (int)map(pc.players.size(),1,12,180,240);
+    int maxWeight = (int)map(pc.players.size(),1,12,200,230);
     return (int)map(velocity.mag(), 0, 100, 255, maxWeight); 
   }
 

@@ -2,6 +2,7 @@
 class Guidance{
   private PImage source;
   private PImage sourceBlurred;
+  private PImage sourceInverted;
  boolean debug = false;
  boolean drawDebug = false;
  int scaleFactor = 16;
@@ -25,6 +26,10 @@ class Guidance{
     arrow = loadImage("pfeil.png");
   }
   
+  public Guidance(){
+    this("formen/kreis.png");
+  }
+  
   public void changeShape(){
     currentShape++;
     if(currentShape >= shapes.length){
@@ -38,16 +43,23 @@ class Guidance{
     draw();
   }
   
+  public void randomShape(){
+    currentShape = (int)random(0,shapes.length);
+    source = loadImage(shapes[currentShape]);
+    source.resize(width,0);
+    sourceBlurred = source.copy();
+    sourceBlurred.filter(BLUR, blurFactor);
+  }
+  
   public void toggleGuidanceDebug(){
     drawDebug = !drawDebug;
+
   }
   
-  public Guidance(){
-    this("formen/kreis.png");
-  }
-  
-  public void fadeinShape(){
-    showShape = true;
+  public void setShapeDraw(boolean drawing){
+    showShape = drawing;
+    sourceInverted = source.copy();
+    sourceInverted.filter(INVERT);
   }
   
   public void draw(){
@@ -56,7 +68,9 @@ class Guidance{
     }
     
     if(showShape){
-      image(source,0,0);
+      blendMode(ADD);
+      image(sourceInverted,0,WallHeight);
+      blendMode(NORMAL);
     }
   }
   

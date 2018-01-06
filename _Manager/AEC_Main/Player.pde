@@ -3,7 +3,7 @@
 abstract class Player{
   
   private final int BRUSH_SIZE = 60/shrink;
-  private final int PARTICLE_COUNT = 5;
+  private final int PARTICLE_COUNT = 3;
   
   private color col;
   
@@ -12,7 +12,7 @@ abstract class Player{
   float smoothedArrowDirection = 0;
   
   public Player(){
-    col = gen.getColor();
+    this.updateColor();
   }
   
   public color getColor(){
@@ -20,7 +20,7 @@ abstract class Player{
   }
   
   public void updateColor(){
-    col = gen.getColor();
+    this.col = gen.getColor();
   }
   
   public void spawnParticles(){

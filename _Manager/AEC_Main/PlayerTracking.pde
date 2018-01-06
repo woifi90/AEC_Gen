@@ -85,13 +85,13 @@ void drawPlayerTracking()
 
 void pharusPlayerAdded(PharusPlayer player)
 {
-  println("Player " + player.id + " added");
+  //println("Player " + player.id + " added");
   sm.playJoinSound();
 }
 
 void pharusPlayerRemoved(PharusPlayer player)
 {
-  println("Player " + player.id + " removed");
+  //println("Player " + player.id + " removed");
   
   // TODO do something here if needed  
 }

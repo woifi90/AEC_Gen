@@ -5,7 +5,7 @@
 
 
 
-static int shrink = 4;
+static int shrink = 3;
 int WindowWidth = 3030/shrink; // for real Deep Space this should be 3030
 int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
 int WallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -22,18 +22,19 @@ ColorGen gen = new ColorGen();
 
 VectorField vf;
 ParticleSystem ps;
-PImage img;
+
 PImage paperTexture;
+PImage logo;
+PImage sandTexture;
 PImage stateTransitionBuffer;
 
 ArrayList<KeyboardPlayer> kps;
 
-int INTROSTATE;
-int STATEA;
-int STATEB;
-int STATEC;
+int STATE_INTRO;
+int STATE_DRAW;
+int STATE_END;
 
-StateA stateA;
+StateDraw stateA;
 
 Guidance guide;
 
@@ -45,14 +46,17 @@ void setup() {
   
   frameRate(30);
   noStroke();
-  colorMode(HSB, 255);
+  
+  colorMode(HSB,255);
   
   sm = new SoundManager(new Minim(this));
-  img = loadImage("sand_texture.jpg");
-  img.resize(width,height);
   
-  paperTexture = loadImage("watercolorPaper_floor.jpg");
+  paperTexture = loadImage("paper.png");
+  logo = loadImage("logo.png");
+  sandTexture = loadImage("sand_texture.jpg");
+  
   paperTexture.resize(WindowWidth,FloorHeight);
+  logo.resize(0,WallHeight/6);
   
   stateTransitionBuffer = createImage(WindowWidth, WindowHeight, ARGB);
   
@@ -62,16 +66,15 @@ void setup() {
   
   stateMgr = new StateMgr();
 
-  INTROSTATE = stateMgr.addState(new IntroState(stateMgr));
+  STATE_INTRO = stateMgr.addState(new StateIntro(stateMgr));
   
   guide = new Guidance();
   
-  stateA = new StateA(stateMgr);
-  STATEA = stateMgr.addState(stateA);
-  STATEB = stateMgr.addState(new StateB(stateMgr));
-  STATEC = stateMgr.addState(new StateC(stateMgr, STATEA));
+  stateA = new StateDraw(stateMgr);
+  STATE_DRAW = stateMgr.addState(stateA);
+  STATE_END = stateMgr.addState(new StateEnd(stateMgr, STATE_DRAW));
   
-  stateMgr.setState(INTROSTATE);
+  stateMgr.setState(STATE_INTRO);
   
   initPlayerTracking();
   
@@ -85,7 +88,7 @@ void draw() {
   stateMgr.updateStates();
   
   // draw UI
-  fill(0);
+  fill(240);
   textSize(20);
   text((int)frameRate + " FPS", width / 2, 30);
 }
@@ -97,37 +100,51 @@ void keyPressed() {
   switch(key)
   {
     case '1':
-      stateMgr.setState(INTROSTATE);
+      stateMgr.setState(STATE_INTRO);
       break;
     case '2':
-      stateMgr.setState(STATEA);
+      stateMgr.setState(STATE_DRAW);
       break;
     case '3':
-      stateMgr.setState(STATEB);
+      stateMgr.setState(STATE_END);
       break;
+      
     case '4':
-      stateMgr.setState(STATEC);
+      gen.setColorMode(1);
+      updatePlayerColors();
       break;
-    case 'y':
+    case '5':
+      gen.setColorMode(2);
+      updatePlayerColors();
+      break;
+    case '6':
+      gen.setColorMode(3);
+      updatePlayerColors();
+      break;
+      
+    case 'x':
       ps.doDraw = !ps.doDraw;
       break;
-    case 'x':
+      
+    case 'c':
       vf.drawHeightfield = !vf.drawHeightfield;
       break;
     case 'v':
       vf.drawVectors = !vf.drawVectors;
       break;
+      
     case 'b':
       guide.changeShape();
       break;
     case 'n':
       guide.toggleGuidanceDebug();
       break;
+      
     case '+':
-      ((StateA)stateMgr.getState(STATEA)).stateDuration+=10*1000;
+      ((StateDraw)stateMgr.getState(STATE_DRAW)).stateDuration+=10*1000;
       break;
     case '-':
-      ((StateA)stateMgr.getState(STATEA)).stateDuration-=10*1000;
+      ((StateDraw)stateMgr.getState(STATE_DRAW)).stateDuration-=10*1000;
       break;
   }
 } 
@@ -138,11 +155,9 @@ void keyReleased(){
   }
 }
 
-void backgroundColor(){ 
-  //background(color(25, 26, 93,1));
-  tint(255, 100);
-  //image(img, 0, 0);
-  image(paperTexture, 0, WallHeight);
-  filter(GRAY);
-  noTint();
+void updatePlayerColors(){
+  for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
+    Player p = playersEntry.getValue();
+    p.updateColor();
+  } 
 }
