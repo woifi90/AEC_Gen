@@ -30,6 +30,18 @@ class StateDraw extends State {
     frameDraw = loadImage("frame_draw.png");
     frameDraw.resize(width, WallHeight);
     
+    stateImgBuffer = createGraphics(width, height);
+    
+    stateImgBuffer.beginDraw();
+    stateImgBuffer.colorMode(HSB, 255);
+    stateImgBuffer.background(10,10,125);
+    stateImgBuffer.image(paperTexture,0,WallHeight);
+    stateImgBuffer.image(frameDraw,0,0);
+    stateImgBuffer.imageMode(CENTER);
+    stateImgBuffer.image(paperTexture, width/2,WallHeight/2, width/2.2, WallHeight/2.2);
+    stateImgBuffer.imageMode(CORNER);
+    stateImgBuffer.endDraw();
+    
     stateStart = millis();
   }
   
@@ -41,9 +53,7 @@ class StateDraw extends State {
   }
   
   void draw() {
-    background(10,10,125);
-    
-    image(paperTexture,0,WallHeight);
+    image(stateImgBuffer,0,0);
     
     guide.draw();
    
@@ -64,18 +74,17 @@ class StateDraw extends State {
     ps.draw();
     
     if(ps.doDraw){
-      imageMode(CENTER);
-      image(paperTexture, width/2,WallHeight/2, width/2.2, WallHeight/2.2);
-      image(particleCanvas,width/2,WallHeight/2, width/2.2, WallHeight/2.2);
-      imageMode(CORNER);
+      //imageMode(CENTER);
+      //image(particleCanvas,width/2,WallHeight/2, width/2.2, WallHeight/2.2);
+      //imageMode(CORNER);
       image(particleCanvas,0,WallHeight);
     }
-    image(frameDraw,0,0);
     
     for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
        PharusPlayer p = playersEntry.getValue();
        guide.drawGuidance(p);
     }
+    
     
     for(KeyboardPlayer kp: kps){
       kp.update();

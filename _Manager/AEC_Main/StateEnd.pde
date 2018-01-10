@@ -15,16 +15,18 @@ class StateEnd extends State {
   
   void setup(){
     guide.setShapeDraw(true);
+    stateImgBuffer = createGraphics(width, height);
+    stateImgBuffer.imageMode(CENTER);
+    stateImgBuffer.beginDraw();
+    stateImgBuffer.background(40);
+    stateImgBuffer.image(paperTexture,width/2,WallHeight/2);
+    stateImgBuffer.image(particleCanvas,width/2,WallHeight/2);
+    stateImgBuffer.endDraw();
   }
   
   void draw() {
-    background(40);
+    image(stateImgBuffer,0,0);
     guide.draw();
-    imageMode(CENTER);
-    image(paperTexture,width/2,WallHeight/2);
-    image(particleCanvas,width/2,WallHeight/2);
-    imageMode(CORNER);
-    
     super.draw();
   }
 

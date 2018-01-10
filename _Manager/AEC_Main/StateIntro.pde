@@ -32,23 +32,23 @@ class StateIntro extends State {
     
     paintSplatter = loadImage("inksplatter.png");
     paintSplatter.resize(width,WallHeight);
+    
+    stateImgBuffer = createGraphics(width, height);
+    stateImgBuffer.beginDraw();
+    stateImgBuffer.background(230);
+    stateImgBuffer.image(paintSplatter, 0,0);
+    stateImgBuffer.imageMode(CENTER);
+    stateImgBuffer.image(logo, width/2, WallHeight/2);
+    stateImgBuffer.imageMode(CORNER);
+    stateImgBuffer.image(frameIntro,0,0);
+    stateImgBuffer.image(paperTexture,0,WallHeight);
+    stateImgBuffer.endDraw();
   }
   
   
   void draw() {
-
-    // fade in from black
-    // fade in logo
-    // fade in paper
-    background(230);
-    image(paintSplatter, 0,0);
-    imageMode(CENTER);
-    image(logo, width/2, WallHeight/2);
     
-    imageMode(CORNER);
-    image(frameIntro,0,0);
-    
-    image(paperTexture,0,WallHeight);
+    image(stateImgBuffer,0,0);
     
     // top mask
     fill(20,topMaskAlpha);

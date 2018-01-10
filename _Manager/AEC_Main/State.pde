@@ -2,6 +2,10 @@
 class State
 {
   
+  protected PGraphics stateImgBuffer;  // buffer to which to draw all static images first in order to reduce redrawing every frame
+  int stateID; 
+  StateMgr stateMgr;
+  
   State() {
   }
   
@@ -47,6 +51,4 @@ class State
     stateMgr = _stateMgr;
   }
 
-  int stateID; 
-  StateMgr stateMgr;
 }
