@@ -5,7 +5,7 @@
 
 
 
-static int shrink = 1;
+static int shrink = 3;
 int WindowWidth = 3030/shrink; // for real Deep Space this should be 3030
 int WindowHeight = 3712/shrink; // for real Deep Space this should be 3712
 int WallHeight = 1914/shrink; // for real Deep Space this should be 1914 (Floor is 1798)
@@ -39,13 +39,15 @@ StateDraw stateA;
 Guidance guide;
 
 void settings(){
-  size(WindowWidth, WindowHeight);
+  size(WindowWidth, WindowHeight, P2D);
+  //fullScreen(P2D,SPAN);
 }
 
 void setup() {
   
   frameRate(30);
   noStroke();
+  //noCursor();
   
   colorMode(HSB,255);
   

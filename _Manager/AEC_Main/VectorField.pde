@@ -47,8 +47,9 @@ class VectorField{
       for (int x = 0; x<fieldCountX; x++){
         for (int y = 0; y<fieldCountY; y++){
           float centerX = x * SIZE + SIZE/2;
-          float centerY = y * SIZE + SIZE /2;
-          PVector dir = vectors[x][y].limit(SIZE); 
+          float centerY = y * SIZE + SIZE /2 + WallHeight;
+          PVector dir = vectors[x][y].copy();
+          dir.mult(0.1).limit(SIZE/2);
           line(centerX, centerY, 
             centerX + dir.x, 
             centerY + dir.y);

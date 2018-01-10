@@ -74,9 +74,9 @@ class StateDraw extends State {
     ps.draw();
     
     if(ps.doDraw){
-      //imageMode(CENTER);
-      //image(particleCanvas,width/2,WallHeight/2, width/2.2, WallHeight/2.2);
-      //imageMode(CORNER);
+      imageMode(CENTER);
+      image(particleCanvas,width/2,WallHeight/2, width/2.2, WallHeight/2.2);
+      imageMode(CORNER);
       image(particleCanvas,0,WallHeight);
     }
     
