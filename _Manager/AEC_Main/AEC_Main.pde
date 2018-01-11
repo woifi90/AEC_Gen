@@ -40,6 +40,7 @@ Guidance guide;
 
 void settings(){
   size(WindowWidth, WindowHeight);
+  //size(WindowWidth, WindowHeight, P2D);
   //fullScreen(P2D,SPAN);
 }
 
@@ -60,7 +61,7 @@ void setup() {
   paperTexture.resize(WindowWidth,FloorHeight);
   logo.resize(0,WallHeight/6);
   
-  stateTransitionBuffer = createImage(WindowWidth, WindowHeight, ARGB);
+  stateTransitionBuffer = createImage(width, height, ARGB);
   
   vf = new VectorField();  
   ps = new ParticleSystem();
