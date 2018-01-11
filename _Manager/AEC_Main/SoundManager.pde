@@ -15,17 +15,17 @@ class SoundManager{
     joinSounds = new AudioPlayer[joinFiles.length];
     for(int i = 0; i < joinFiles.length; i++){
         println(i);
-        audioplayer.loadFile(joinFiles[i]);;    }
+        joinSounds[i] = audioplayer.loadFile(joinFiles[i]);;    }
   }
   
   public void playIntroGong(){
-    println("GONG");
+      println("GONG");
      general = audioplayer.loadFile("gong.wav");
      general.play();
   }
   
   public void playJoinSound(){
-      AudioPlayer sound = joinSounds[int(random(joinSounds.length))];
-      sound.play();
+    println("join sound");
+    joinSounds[int(random(joinSounds.length))].play();
   }
 }
