@@ -10,6 +10,8 @@ class StateIntro extends State {
   int topFadeStart = 1000;
   int botFadeStart = 6000;
   
+  boolean start;
+  
   // after 15 seconds, switch to draw
   private final int INTRODURATION = 15 * 1000;
   
@@ -26,6 +28,8 @@ class StateIntro extends State {
   
   
   void setup() {
+    
+    start=true;
 
     frameIntro = loadImage("frame.png");
     frameIntro.resize(width,WallHeight);
@@ -49,6 +53,11 @@ class StateIntro extends State {
   void draw() {
     
     image(stateImgBuffer,0,0);
+    
+    if(start){
+      start= false;
+      sm.playIntroGong();
+    }
     
     // top mask
     fill(20,topMaskAlpha);

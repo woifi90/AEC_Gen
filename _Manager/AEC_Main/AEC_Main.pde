@@ -39,7 +39,7 @@ StateDraw stateA;
 Guidance guide;
 
 void settings(){
-  size(WindowWidth, WindowHeight, P2D);
+  size(WindowWidth, WindowHeight);
   //fullScreen(P2D,SPAN);
 }
 
