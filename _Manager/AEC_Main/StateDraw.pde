@@ -17,6 +17,8 @@ class StateDraw extends State {
   void setup(){
     ps.reset();
     
+    sm.playMusic();
+    
     gen.setColorMode((int)random(0,4));
     updatePlayerColors();
     

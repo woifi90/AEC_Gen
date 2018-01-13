@@ -88,6 +88,7 @@ void pharusPlayerAdded(PharusPlayer player)
   //println("Player " + player.id + " added");
   if(sm != null){
     sm.playJoinSound();
+    sm.playPlayerMusic();
   }
 }
 
