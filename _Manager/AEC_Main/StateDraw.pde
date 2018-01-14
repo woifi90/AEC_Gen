@@ -17,7 +17,7 @@ class StateDraw extends State {
   void setup(){
     ps.reset();
     
-    sm.playMusic();
+    //sm.playMusic();
     
     gen.setColorMode((int)random(0,4));
     updatePlayerColors();
@@ -45,6 +45,7 @@ class StateDraw extends State {
     stateImgBuffer.endDraw();
     
     stateStart = millis();
+    sm.playIntroGong();
   }
   
   void cleanup(){

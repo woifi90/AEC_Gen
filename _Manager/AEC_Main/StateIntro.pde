@@ -56,7 +56,7 @@ class StateIntro extends State {
     
     if(start){
       start= false;
-      sm.playIntroGong();
+      sm.playAmbience();
     }
     
     // top mask

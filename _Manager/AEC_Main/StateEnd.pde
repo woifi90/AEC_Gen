@@ -22,6 +22,8 @@ class StateEnd extends State {
     stateImgBuffer.image(paperTexture,width/2,WallHeight/2);
     stateImgBuffer.image(particleCanvas,width/2,WallHeight/2);
     stateImgBuffer.endDraw();
+    
+    sm.playOutroGong();
   }
   
   void draw() {

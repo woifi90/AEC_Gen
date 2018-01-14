@@ -174,8 +174,8 @@ public class PharusClient extends PApplet
               // swap previous TUIO id to new id
               println("updating tuio id of player " + p.id + " from " + p.tuioId + " to " + tc.getSessionID());
               players.remove(p.tuioId);
-              sm.playPlayerMusic();
-              sm.playJoinSound();
+              //sm.playPlayerMusic();
+              //sm.playJoinSound();
               players.put(tc.getSessionID(), p);
               // update player
               p.age = 0;
