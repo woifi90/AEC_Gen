@@ -24,6 +24,7 @@ class StateEnd extends State {
     stateImgBuffer.endDraw();
     
     sm.playOutroGong();
+    sm.setIntensity(0);
   }
   
   void draw() {

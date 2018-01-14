@@ -52,32 +52,42 @@ class SoundManager{
     
     // LOAD AMBIENCE
     ambience = new AudioPlayer[3];
-    ambience[0] = audioplayer.loadFile("ambience/Leafy_Tree_Wind_Lite.wav");
-    ambience[1] = audioplayer.loadFile("ambience/Low_Wind_Tone_Atmosphere.wav");
+    ambience[0] = audioplayer.loadFile("ambience/Low_Wind_Tone_Atmosphere.wav");
+    ambience[1] = audioplayer.loadFile("ambience/Leafy_Tree_Wind_Lite.wav");
     ambience[2] = audioplayer.loadFile("ambience/phurpa_intense.wav");
     
     for(int i = 0; i < 3; i++){
-      ambience[i].setGain(-100);
+      ambience[i].setGain(minimumGain);
       ambience[i].loop();
     }
     
+    setIntensity(0);
   }
   
-  float sampleThresholds[] = {0.0,0.5,0.8};
-  float fadeInRange = 0.1;
+  float sampleThresholds[] = {0.0,0.35,0.85};
+  float fadeInRange = 0.5;
+  float maximumGain = 0;
+  float minimumGain = -50;
+  
   public void setIntensity(float i){
-    
+    for(int j = 0; j < sampleThresholds.length; j++){
+      if(i > sampleThresholds[j]-fadeInRange){
+        float gain = map(i,sampleThresholds[j]-fadeInRange,sampleThresholds[j],minimumGain,maximumGain);
+        gain = constrain(gain, minimumGain, maximumGain);
+        ambience[j].setGain(gain);
+      }
+    }
   }
   
   public void playIntroGong(){
-      println("GONG");
+      println("sound: intro gong");
      general = audioplayer.loadFile("gong.wav");
      general.setGain(-10);
      general.play();
   }
   
   public void playOutroGong(){
-          println("GONG");
+     println("sound: outro gong");
      general = audioplayer.loadFile("gong2.wav");
      general.setGain(-10);
      general.play();
@@ -86,7 +96,7 @@ class SoundManager{
   
   int joinIter = 0;
   public void playJoinSound(){
-    println("join sound");
+    println("sound: join");
     int rnd = int(random(joinFiles.length));
     
     playerBuffer[joinIter] = audioplayer.loadFile(joinFiles[rnd]);
@@ -115,8 +125,7 @@ class SoundManager{
   }
   
   public void playAmbience(){
-    AudioPlayer ambience = audioplayer.loadFile("ambience/Low_Wind_Tone_Atmosphere.wav");    
-    ambience.loop();
+     ambience[0].setGain(0);
   }
   
   public void playMusic(){

@@ -55,15 +55,43 @@ class StateDraw extends State {
     vf.reset();
   }
   
+  float intensityPrev = 0;
+  float intensityDamping = 0.99;
   void draw() {
     image(stateImgBuffer,0,0);
     
     guide.draw();
    
+    float highestVelocity = 0;
+    float averageVelocity = 0;
     for(HashMap.Entry<Long, PharusPlayer> playersEntry : pc.players.entrySet()){
       PharusPlayer p = playersEntry.getValue();
       p.spawnParticles();  
+      
+      float velocity = p.getAverageVelocity().mag();
+      averageVelocity += velocity;
+      if(velocity > highestVelocity){
+        highestVelocity = velocity;
+      }
     }
+    
+    // calculate sound intensity
+    if(pc.players.size() > 0 && !Float.isNaN(averageVelocity)){
+      averageVelocity /= pc.players.size();
+      averageVelocity = (averageVelocity+highestVelocity) / 2f; // weight average towards highest velocity
+      float intensity = map(averageVelocity, 50, 250, 0, 1f);
+      intensity = constrain(intensity, 0,1);
+      intensity = lerp(intensityPrev, intensity, 1-intensityDamping);
+      sm.setIntensity(intensity);
+      intensityPrev = intensity;
+      
+      // draw UI
+      fill(240);
+      textSize(20);
+      text(intensity, width / 3, 30);
+    }
+
+    
     vf.displace(pc.players.values().toArray());
     
     for(KeyboardPlayer p: kps){
