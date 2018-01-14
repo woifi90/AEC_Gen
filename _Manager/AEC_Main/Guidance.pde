@@ -24,6 +24,8 @@ class Guidance{
     sourceBlurred.filter(BLUR, blurFactor);
     size = 30/shrink;
     arrow = loadImage("pfeil.png");
+    
+    currentShape = (int)random(0,shapes.length);
   }
   
   public Guidance(){
@@ -44,7 +46,11 @@ class Guidance{
   }
   
   public void randomShape(){
-    currentShape = (int)random(0,shapes.length);
+    currentShape++;
+    if(currentShape >= shapes.length){
+      currentShape = 0;
+    }
+    
     source = loadImage(shapes[currentShape]);
     source.resize(width,0);
     sourceBlurred = source.copy();

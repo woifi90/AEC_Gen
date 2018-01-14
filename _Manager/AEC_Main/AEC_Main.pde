@@ -34,6 +34,8 @@ int STATE_INTRO;
 int STATE_DRAW;
 int STATE_END;
 
+boolean globalDebug = true;
+
 StateDraw stateA;
 
 Guidance guide;
@@ -91,9 +93,11 @@ void draw() {
   stateMgr.updateStates();
   
   // draw UI
-  fill(240);
-  textSize(20);
-  text((int)frameRate + " FPS", width / 2, 30);
+  if(globalDebug){
+    fill(240);
+    textSize(20);
+    text((int)frameRate + " FPS", width / 2, 30);
+  }
 }
 
 void keyPressed() {
@@ -142,7 +146,9 @@ void keyPressed() {
     case 'n':
       guide.toggleGuidanceDebug();
       break;
-      
+    case 'd':
+      globalDebug = !globalDebug;
+      break;
     case '+':
       ((StateDraw)stateMgr.getState(STATE_DRAW)).stateDuration+=10*1000;
       break;

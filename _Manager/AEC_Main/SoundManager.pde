@@ -64,7 +64,7 @@ class SoundManager{
     setIntensity(0);
   }
   
-  float sampleThresholds[] = {0.0,0.35,0.85};
+  float sampleThresholds[] = {0.0,0.35,0.80};
   float fadeInRange = 0.5;
   float maximumGain = 0;
   float minimumGain = -50;

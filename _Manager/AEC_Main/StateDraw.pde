@@ -86,9 +86,11 @@ class StateDraw extends State {
       intensityPrev = intensity;
       
       // draw UI
-      fill(240);
-      textSize(20);
-      text(intensity, width / 3, 30);
+      if(globalDebug){
+        fill(240);
+        textSize(20);
+        text(intensity, width / 3, 30);
+      }
     }
 
     
@@ -128,7 +130,9 @@ class StateDraw extends State {
     int remainingTime = stateStart + stateDuration - millis();
     
     String formattedTime = (remainingTime/60000+":"+nf((remainingTime/1000)%60,2));
-    text(formattedTime, 30,30);
+    if(globalDebug){
+      text(formattedTime, 30,30);
+    }
     if(remainingTime < 0){stateMgr.setState(STATE_END);}
     
     super.draw();
