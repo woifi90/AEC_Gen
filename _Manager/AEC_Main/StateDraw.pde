@@ -79,7 +79,7 @@ class StateDraw extends State {
     if(pc.players.size() > 0 && !Float.isNaN(averageVelocity)){
       averageVelocity /= pc.players.size();
       averageVelocity = (averageVelocity+highestVelocity) / 2f; // weight average towards highest velocity
-      float intensity = map(averageVelocity, 50, 250, 0, 1f);
+      float intensity = map(averageVelocity, 50, 230, 0, 1f);
       intensity = constrain(intensity, 0,1);
       intensity = lerp(intensityPrev, intensity, 1-intensityDamping);
       sm.setIntensity(intensity);
